@@ -1,0 +1,58 @@
+[gd_scene load_steps=8 format=3 uid="uid://b5xkr3m8y2p7q"]
+
+[ext_resource type="Script" path="res://player/player.gd" id="1_plr01"]
+[ext_resource type="Script" path="res://player/player_camera.gd" id="2_cam01"]
+[ext_resource type="Script" path="res://player/flashlight.gd" id="3_flt01"]
+[ext_resource type="Script" path="res://player/interaction_system.gd" id="4_int01"]
+[ext_resource type="Script" path="res://player/footstep_system.gd" id="5_fts01"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_stand"]
+radius = 0.35
+height = 1.8
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_crouch"]
+radius = 0.35
+height = 1.0
+
+[node name="Player" type="CharacterBody3D" groups=["player"]]
+collision_layer = 2
+collision_mask = 29
+script = ExtResource("1_plr01")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+shape = SubResource("CapsuleShape3D_stand")
+
+[node name="Head" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Head"]
+current = true
+fov = 70.0
+script = ExtResource("2_cam01")
+
+[node name="Flashlight" type="SpotLight3D" parent="Head"]
+light_energy = 1.2
+shadow_enabled = true
+spot_range = 15.0
+spot_angle = 25.0
+script = ExtResource("3_flt01")
+
+[node name="InteractionRay" type="RayCast3D" parent="Head"]
+target_position = Vector3(0, 0, -2.5)
+collision_mask = 8
+script = ExtResource("4_int01")
+
+[node name="FootstepRay" type="RayCast3D" parent="."]
+target_position = Vector3(0, -1.2, 0)
+collision_mask = 1
+script = ExtResource("5_fts01")
+
+[node name="FootstepAudio" type="AudioStreamPlayer3D" parent="."]
+bus = &"SFX"
+max_distance = 20.0
+
+[node name="CrouchShape" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("CapsuleShape3D_crouch")
+disabled = true

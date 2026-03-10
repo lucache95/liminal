@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ObjectiveTemplate" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://resources/objectives/objective_template.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+objective_id = "radio_tune"
+type = 2
+display_hint = "The static hides a signal..."
+required_count = 1
+difficulty_weight = 1.5

@@ -1,0 +1,73 @@
+[gd_scene load_steps=14 format=3]
+
+[ext_resource type="Script" path="res://enemies/stalker/stalker.gd" id="1_stk01"]
+[ext_resource type="Resource" path="res://enemies/stalker/stalker_config.tres" id="2_cfg01"]
+[ext_resource type="Script" path="res://enemies/stalker/sight_sensor.gd" id="3_sgt01"]
+[ext_resource type="Script" path="res://enemies/stalker/hearing_sensor.gd" id="4_hrg01"]
+[ext_resource type="Script" path="res://utils/state_machine.gd" id="5_stm01"]
+[ext_resource type="Script" path="res://enemies/stalker/states/idle_state.gd" id="6_idl01"]
+[ext_resource type="Script" path="res://enemies/stalker/states/patrol_state.gd" id="7_ptr01"]
+[ext_resource type="Script" path="res://enemies/stalker/states/investigate_state.gd" id="8_inv01"]
+[ext_resource type="Script" path="res://enemies/stalker/states/chase_state.gd" id="9_chs01"]
+[ext_resource type="Script" path="res://enemies/stalker/states/search_state.gd" id="10_src01"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_col01"]
+radius = 0.4
+height = 2.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mat01"]
+albedo_color = Color(0.08, 0.06, 0.08, 1)
+roughness = 0.9
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_mesh01"]
+material = SubResource("StandardMaterial3D_mat01")
+radius = 0.4
+height = 2.0
+
+[node name="Stalker" type="CharacterBody3D" groups=["monster"]]
+collision_layer = 4
+collision_mask = 1
+script = ExtResource("1_stk01")
+config = ExtResource("2_cfg01")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, 0)
+shape = SubResource("CapsuleShape3D_col01")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, 0)
+mesh = SubResource("CapsuleMesh_mesh01")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+path_desired_distance = 0.5
+target_desired_distance = 1.0
+avoidance_enabled = true
+
+[node name="SightSensor" type="Node3D" parent="."]
+script = ExtResource("3_sgt01")
+
+[node name="HearingSensor" type="Node3D" parent="."]
+script = ExtResource("4_hrg01")
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("5_stm01")
+initial_state = NodePath("IdleState")
+
+[node name="IdleState" type="Node" parent="StateMachine"]
+script = ExtResource("6_idl01")
+
+[node name="PatrolState" type="Node" parent="StateMachine"]
+script = ExtResource("7_ptr01")
+
+[node name="InvestigateState" type="Node" parent="StateMachine"]
+script = ExtResource("8_inv01")
+
+[node name="ChaseState" type="Node" parent="StateMachine"]
+script = ExtResource("9_chs01")
+
+[node name="SearchState" type="Node" parent="StateMachine"]
+script = ExtResource("10_src01")
+
+[node name="AudioPlayer" type="AudioStreamPlayer3D" parent="."]
+bus = &"SFX"
+max_distance = 30.0

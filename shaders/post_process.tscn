@@ -1,0 +1,71 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://shaders/post_process_controller.gd" id="1_ctrl"]
+[ext_resource type="Shader" path="res://shaders/vignette.gdshader" id="2_vign"]
+[ext_resource type="Shader" path="res://shaders/chromatic_aberration.gdshader" id="3_aber"]
+[ext_resource type="Shader" path="res://shaders/film_grain.gdshader" id="4_grain"]
+[ext_resource type="Shader" path="res://shaders/screen_distortion.gdshader" id="5_dist"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vignette"]
+shader = ExtResource("2_vign")
+shader_parameter/intensity = 0.4
+shader_parameter/softness = 0.5
+shader_parameter/color = Color(0, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_aberration"]
+shader = ExtResource("3_aber")
+shader_parameter/strength = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_grain"]
+shader = ExtResource("4_grain")
+shader_parameter/grain_amount = 0.05
+shader_parameter/grain_size = 1.5
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_distortion"]
+shader = ExtResource("5_dist")
+shader_parameter/strength = 0.0
+shader_parameter/speed = 1.0
+
+[node name="PostProcess" type="CanvasLayer"]
+layer = 10
+script = ExtResource("1_ctrl")
+
+[node name="VignetteRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+material = SubResource("ShaderMaterial_vignette")
+color = Color(0, 0, 0, 0)
+
+[node name="AberrationRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+material = SubResource("ShaderMaterial_aberration")
+color = Color(0, 0, 0, 0)
+
+[node name="GrainRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+material = SubResource("ShaderMaterial_grain")
+color = Color(0, 0, 0, 0)
+
+[node name="DistortionRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+material = SubResource("ShaderMaterial_distortion")
+color = Color(0, 0, 0, 0)

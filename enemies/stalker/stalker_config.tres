@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="MonsterConfig" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://resources/enemy_configs/monster_config.gd" id="1_mc001"]
+
+[resource]
+script = ExtResource("1_mc001")
+display_name = "Stalker"
+patrol_speed = 2.5
+investigate_speed = 3.5
+chase_speed = 6.0
+sight_range = 30.0
+sight_angle_degrees = 60.0
+hearing_range = 40.0
+light_threshold = 0.3
+alert_buildup_rate = 0.2
+alert_decay_rate = 0.05
+lose_interest_time = 15.0
+search_duration = 30.0
