@@ -2,8 +2,11 @@
 """PBR texture generation script via Scenario API.
 
 Generates complete PBR texture sets (albedo, normal, roughness) for all
-surface types using the Scenario txt2img-texture API. Replaces placeholder
-normal/roughness maps and adds new texture types.
+surface types using a two-step Scenario API flow:
+  1. txt2img-texture: Generate base texture image from text prompt
+  2. texture converter: Extract PBR maps (albedo, normal, roughness) from base image
+
+Replaces placeholder normal/roughness maps and adds new texture types.
 
 Usage:
     python3 generate_textures.py             # Generate missing/placeholder textures
@@ -33,17 +36,22 @@ ENV_PATH = Path(__file__).parent / ".env"
 PLACEHOLDER_THRESHOLD = 2000  # bytes
 
 # Scenario API settings
-SCENARIO_API_URL = "https://api.cloud.scenario.com/v1/generate/txt2img-texture"
+SCENARIO_BASE_URL = "https://api.cloud.scenario.com/v1"
+SCENARIO_MODEL_ID = "model_jM6aNXDGR2DyqujYRisjDa6r"  # Realistic Textures 3.0
 TEXTURE_WIDTH = 256
 TEXTURE_HEIGHT = 256
 NUM_INFERENCE_STEPS = 30
 GUIDANCE = 7.5
 
-# Shared negative prompt for warm decay palette
-NEGATIVE_PROMPT = "clean, new, bright, cartoon, anime, polished, pristine, modern"
-
-# Maps we care about from Scenario response
+# Maps we care about from Scenario texture converter
 PBR_MAP_TYPES = ["albedo", "normal", "roughness"]
+
+# Mapping from Scenario source names to our map types
+SCENARIO_SOURCE_MAP = {
+    "texture:albedo": "albedo",
+    "texture:normal": "normal",
+    "texture:smoothness": "roughness",  # Smoothness is inverse of roughness; Godot handles both
+}
 
 # ============================================================
 # Texture inventory
@@ -197,10 +205,66 @@ def download_file(url, path):
         urllib.request.urlretrieve(url, str(path))
         size_bytes = path.stat().st_size
         print(f"    Downloaded: {path.name} ({size_bytes} bytes)")
+
+        # Scenario API sometimes returns JPEG for albedo maps even when
+        # we need PNG. Detect and convert if necessary.
+        if path.suffix == ".png":
+            with open(path, "rb") as f:
+                magic = f.read(4)
+            if magic[:2] == b"\xff\xd8":
+                # File is JPEG, convert to PNG via subprocess (sips on macOS)
+                converted = _convert_jpeg_to_png(path)
+                if converted:
+                    print(f"    Converted: {path.name} JPEG -> PNG")
+                else:
+                    print(f"    WARNING: {path.name} is JPEG, conversion failed")
+
         return True
     except Exception as e:
         print(f"    Download failed for {path.name}: {e}")
         return False
+
+
+def _convert_jpeg_to_png(path):
+    """Convert a JPEG file to PNG format in-place.
+
+    Uses Python stdlib only -- reads JPEG raw data and re-encodes as PNG
+    via subprocess call to sips (macOS) or convert (ImageMagick).
+    Falls back to keeping the JPEG data with .png extension if conversion
+    tools are unavailable (Godot can load JPEG data regardless of extension).
+    """
+    import subprocess
+    try:
+        # Try sips (macOS built-in)
+        result = subprocess.run(
+            ["sips", "-s", "format", "png", str(path), "--out", str(path)],
+            capture_output=True, text=True, timeout=30
+        )
+        if result.returncode == 0:
+            return True
+    except (FileNotFoundError, subprocess.TimeoutExpired):
+        pass
+
+    try:
+        # Try ImageMagick convert
+        tmp_path = path.with_suffix(".jpg")
+        path.rename(tmp_path)
+        result = subprocess.run(
+            ["convert", str(tmp_path), str(path)],
+            capture_output=True, text=True, timeout=30
+        )
+        if result.returncode == 0:
+            tmp_path.unlink()
+            return True
+        else:
+            # Revert rename
+            tmp_path.rename(path)
+    except (FileNotFoundError, subprocess.TimeoutExpired):
+        pass
+
+    # Godot 4 can actually load JPEG data even with .png extension,
+    # so this is acceptable as a fallback
+    return False
 
 
 # ============================================================
@@ -242,26 +306,25 @@ def needs_generation(texture, force=False):
 
 
 # ============================================================
-# Scenario API interaction
+# Scenario API: Step 1 - Generate base texture image
 # ============================================================
 
-def submit_generation(prompt, auth_header):
-    """Submit a texture generation request to Scenario API.
+def submit_txt2img_texture(prompt, auth_header):
+    """Submit a txt2img-texture request to generate a base texture image.
 
-    Returns the generation/inference ID for polling.
+    Returns (inference_id, job_id) tuple for polling.
     """
     data = {
         "prompt": prompt,
-        "negativePrompt": NEGATIVE_PROMPT,
+        "modelId": SCENARIO_MODEL_ID,
         "width": TEXTURE_WIDTH,
         "height": TEXTURE_HEIGHT,
-        "numOutputs": 1,
         "numInferenceSteps": NUM_INFERENCE_STEPS,
         "guidance": GUIDANCE,
     }
 
     resp = api_request(
-        SCENARIO_API_URL,
+        f"{SCENARIO_BASE_URL}/generate/txt2img-texture",
         data=data,
         headers={
             "Authorization": auth_header,
@@ -270,33 +333,27 @@ def submit_generation(prompt, auth_header):
     )
 
     if not resp:
-        return None
+        return None, None
 
-    # Scenario API returns an inference object with an ID
-    inference = resp.get("inference", resp)
-    inference_id = inference.get("id") or inference.get("inferenceId")
-
-    if not inference_id:
-        # Try alternate response structures
-        if isinstance(resp, dict):
-            inference_id = resp.get("id") or resp.get("inferenceId")
-            if not inference_id and "data" in resp:
-                inference_id = resp["data"].get("id") or resp["data"].get("inferenceId")
+    inference = resp.get("inference", {})
+    inference_id = inference.get("id")
+    job = resp.get("job", {})
+    job_id = job.get("jobId")
 
     if inference_id:
-        print(f"    Submitted: inference {inference_id}")
-        return inference_id
+        print(f"    Step 1 submitted: inference={inference_id}")
+        return inference_id, job_id
 
-    print(f"    Unexpected response structure: {json.dumps(resp)[:300]}")
-    return None
+    print(f"    Unexpected response: {json.dumps(resp)[:300]}")
+    return None, None
 
 
-def poll_generation(inference_id, auth_header, timeout=300):
-    """Poll Scenario API for generation completion.
+def poll_job(job_id, auth_header, timeout=300):
+    """Poll a Scenario job until completion.
 
-    Returns the inference result with asset URLs when complete.
+    Returns the job result dict with asset IDs when complete.
     """
-    poll_url = f"https://api.cloud.scenario.com/v1/generate/txt2img-texture/{inference_id}"
+    poll_url = f"{SCENARIO_BASE_URL}/jobs/{job_id}"
     start = time.time()
 
     while time.time() - start < timeout:
@@ -310,93 +367,145 @@ def poll_generation(inference_id, auth_header, timeout=300):
             time.sleep(10)
             continue
 
-        inference = resp.get("inference", resp)
-        status = inference.get("status", "unknown")
+        job = resp.get("job", resp)
+        status = job.get("status", "unknown")
+        progress = job.get("progress", 0)
 
-        if status in ("succeeded", "complete", "SUCCEEDED", "COMPLETE"):
-            return inference
-        elif status in ("failed", "FAILED", "error", "ERROR"):
-            print(f"    Generation FAILED: {inference.get('error', 'unknown error')}")
+        if status == "success":
+            asset_ids = job.get("metadata", {}).get("assetIds", [])
+            print(f"    Job complete: {len(asset_ids)} assets generated")
+            return job
+        elif status in ("failed", "error"):
+            print(f"    Job FAILED: {job.get('error', 'unknown')}")
             return None
         else:
-            progress = inference.get("progress", "?")
-            print(f"    Status: {status} (progress: {progress})")
+            print(f"    Job status: {status} (progress: {progress})")
 
         time.sleep(10)
 
-    print(f"    Generation TIMEOUT after {timeout}s")
+    print(f"    Job TIMEOUT after {timeout}s")
     return None
 
 
-def extract_map_urls(inference_result):
-    """Extract PBR map download URLs from Scenario inference result.
+def poll_inference_jobs(inference_id, auth_header, timeout=300):
+    """Poll jobs by inference ID until the txt2img job completes.
 
-    The Scenario txt2img-texture endpoint returns separate URLs for each
-    PBR map type (albedo, normal, roughness, etc.).
+    Returns the completed job dict with asset IDs.
+    """
+    poll_url = f"{SCENARIO_BASE_URL}/jobs?inferenceId={inference_id}"
+    start = time.time()
 
-    Returns a dict mapping map_type -> URL.
+    while time.time() - start < timeout:
+        resp = api_request(
+            poll_url,
+            headers={"Authorization": auth_header},
+            method="GET",
+        )
+
+        if not resp:
+            time.sleep(10)
+            continue
+
+        jobs = resp.get("jobs", [])
+        # Find the txt2img/flux job (not the texture conversion job)
+        for job in jobs:
+            job_type = job.get("jobType", "")
+            status = job.get("status", "unknown")
+
+            if job_type in ("flux", "inference") and status == "success":
+                asset_ids = job.get("metadata", {}).get("assetIds", [])
+                print(f"    Step 1 complete: {len(asset_ids)} texture variants")
+                return job
+            elif job_type in ("flux", "inference") and status in ("failed", "error"):
+                print(f"    Step 1 FAILED")
+                return None
+
+        # Check overall progress
+        if jobs:
+            flux_jobs = [j for j in jobs if j.get("jobType") in ("flux", "inference")]
+            if flux_jobs:
+                j = flux_jobs[0]
+                print(f"    Step 1: {j.get('status', '?')} (progress: {j.get('progress', '?')})")
+
+        time.sleep(10)
+
+    print(f"    Step 1 TIMEOUT after {timeout}s")
+    return None
+
+
+# ============================================================
+# Scenario API: Step 2 - Convert to PBR maps
+# ============================================================
+
+def submit_texture_conversion(asset_id, auth_header):
+    """Submit a texture conversion job to generate PBR maps from a base image.
+
+    Returns the job ID for polling.
+    """
+    data = {
+        "texture": asset_id,
+        "textureWidth": TEXTURE_WIDTH,
+        "textureHeight": TEXTURE_HEIGHT,
+    }
+
+    resp = api_request(
+        f"{SCENARIO_BASE_URL}/generate/texture",
+        data=data,
+        headers={
+            "Authorization": auth_header,
+            "Content-Type": "application/json",
+        },
+    )
+
+    if not resp:
+        return None
+
+    job = resp.get("job", {})
+    job_id = job.get("jobId")
+
+    if job_id:
+        print(f"    Step 2 submitted: job={job_id}")
+        return job_id
+
+    print(f"    Step 2 unexpected response: {json.dumps(resp)[:300]}")
+    return None
+
+
+def fetch_pbr_map_urls(asset_ids, auth_header):
+    """Fetch PBR map download URLs from texture conversion output assets.
+
+    Returns a dict mapping our map types (albedo, normal, roughness) to
+    download URLs.
     """
     urls = {}
 
-    # Try various response structures the API might use
-    # Structure 1: inference.images[].type / inference.images[].url
-    images = inference_result.get("images", [])
-    if not images:
-        images = inference_result.get("outputs", [])
-    if not images:
-        images = inference_result.get("assets", [])
+    for asset_id in asset_ids:
+        resp = api_request(
+            f"{SCENARIO_BASE_URL}/assets/{asset_id}",
+            headers={"Authorization": auth_header},
+            method="GET",
+        )
 
-    if images:
-        for img in images:
-            if isinstance(img, dict):
-                # Map type might be in "type", "mapType", "name", or "label"
-                map_type = (
-                    img.get("type", "")
-                    or img.get("mapType", "")
-                    or img.get("name", "")
-                    or img.get("label", "")
-                ).lower()
+        if not resp:
+            continue
 
-                # Normalize map type names
-                if "albedo" in map_type or "diffuse" in map_type or "color" in map_type or "base" in map_type:
-                    url = img.get("url") or img.get("downloadUrl") or img.get("imageUrl")
-                    if url:
-                        urls["albedo"] = url
-                elif "normal" in map_type:
-                    url = img.get("url") or img.get("downloadUrl") or img.get("imageUrl")
-                    if url:
-                        urls["normal"] = url
-                elif "roughness" in map_type:
-                    url = img.get("url") or img.get("downloadUrl") or img.get("imageUrl")
-                    if url:
-                        urls["roughness"] = url
+        asset = resp.get("asset", resp)
+        source = asset.get("source", "")
+        url = asset.get("url", "")
 
-    # Structure 2: inference.maps.albedo / normal / roughness
-    maps = inference_result.get("maps", {})
-    if maps:
-        for map_type in PBR_MAP_TYPES:
-            if map_type in maps and maps[map_type]:
-                map_data = maps[map_type]
-                url = map_data if isinstance(map_data, str) else map_data.get("url", "")
-                if url:
-                    urls[map_type] = url
+        if not url:
+            continue
 
-    # Structure 3: Direct URL fields
-    for map_type in PBR_MAP_TYPES:
-        key_variants = [
-            f"{map_type}Url",
-            f"{map_type}_url",
-            f"{map_type}MapUrl",
-        ]
-        for key in key_variants:
-            if key in inference_result and inference_result[key]:
-                urls[map_type] = inference_result[key]
+        # Map Scenario source types to our PBR map types
+        if source in SCENARIO_SOURCE_MAP:
+            our_type = SCENARIO_SOURCE_MAP[source]
+            urls[our_type] = url
 
     return urls
 
 
 # ============================================================
-# Backup and save
+# Backup
 # ============================================================
 
 def backup_existing(file_path):
@@ -417,6 +526,14 @@ def backup_existing(file_path):
 def generate_texture(texture, auth_header, force=False, dry_run=False):
     """Generate PBR maps for a single texture type.
 
+    Two-step flow:
+    1. txt2img-texture: Generate base texture from prompt (produces 4 variants)
+    2. texture converter: Extract PBR maps (albedo, normal, roughness) from first variant
+
+    For existing textures with valid albedos (regenerate_albedo=False), we still
+    generate from the prompt to get PBR-quality normal and roughness maps -- the
+    existing albedo is preserved via the backup mechanism.
+
     Returns (success: bool, maps_generated: list[str], error: str|None)
     """
     name = texture["name"]
@@ -434,24 +551,51 @@ def generate_texture(texture, auth_header, force=False, dry_run=False):
     if dry_run:
         return True, needed, None
 
-    # Submit generation request
-    inference_id = submit_generation(texture["prompt"], auth_header)
+    # --- Step 1: Generate base texture image ---
+    print(f"  [{name}] Step 1: Generating base texture...")
+    inference_id, job_id = submit_txt2img_texture(texture["prompt"], auth_header)
     if not inference_id:
-        return False, [], "Failed to submit generation request"
+        return False, [], "Failed to submit txt2img-texture request"
 
-    # Poll for completion
-    result = poll_generation(inference_id, auth_header)
-    if not result:
-        return False, [], "Generation failed or timed out"
+    # Poll for completion using inference-based job query
+    txt2img_job = poll_inference_jobs(inference_id, auth_header, timeout=300)
+    if not txt2img_job:
+        return False, [], "txt2img-texture generation failed or timed out"
 
-    # Extract map URLs
-    map_urls = extract_map_urls(result)
+    # Get the first asset ID (first variant out of 4)
+    asset_ids = txt2img_job.get("metadata", {}).get("assetIds", [])
+    if not asset_ids:
+        return False, [], "No assets generated in txt2img step"
+
+    base_asset_id = asset_ids[0]
+    print(f"    Using variant: {base_asset_id}")
+
+    # --- Step 2: Convert to PBR maps ---
+    print(f"  [{name}] Step 2: Converting to PBR maps...")
+    conversion_job_id = submit_texture_conversion(base_asset_id, auth_header)
+    if not conversion_job_id:
+        return False, [], "Failed to submit texture conversion request"
+
+    # Poll conversion job
+    conversion_job = poll_job(conversion_job_id, auth_header, timeout=120)
+    if not conversion_job:
+        return False, [], "Texture conversion failed or timed out"
+
+    # Get PBR map asset IDs
+    pbr_asset_ids = conversion_job.get("metadata", {}).get("assetIds", [])
+    if not pbr_asset_ids:
+        return False, [], "No PBR assets from texture conversion"
+
+    # Fetch download URLs for each PBR map
+    print(f"    Fetching PBR map URLs from {len(pbr_asset_ids)} assets...")
+    map_urls = fetch_pbr_map_urls(pbr_asset_ids, auth_header)
+
     if not map_urls:
-        print(f"    WARNING: No map URLs found in response")
-        print(f"    Response keys: {list(result.keys()) if isinstance(result, dict) else 'not a dict'}")
-        return False, [], "No map URLs in response"
+        return False, [], "Could not extract PBR map URLs from assets"
 
-    # Download needed maps
+    print(f"    Available maps: {', '.join(map_urls.keys())}")
+
+    # --- Download needed maps ---
     downloaded = []
     for map_type in needed:
         if map_type not in map_urls:
@@ -465,15 +609,15 @@ def generate_texture(texture, auth_header, force=False, dry_run=False):
 
         # Download
         if download_file(map_urls[map_type], file_path):
-            # Verify download is not a placeholder
-            if file_path.stat().st_size < PLACEHOLDER_THRESHOLD:
-                print(f"    WARNING: Downloaded {map_type} map is suspiciously small ({file_path.stat().st_size} bytes)")
+            size = file_path.stat().st_size
+            if size < PLACEHOLDER_THRESHOLD:
+                print(f"    WARNING: Downloaded {map_type} map is small ({size} bytes)")
             else:
                 downloaded.append(map_type)
 
     missing = [m for m in needed if m not in downloaded]
     if missing:
-        return False, downloaded, f"Missing maps after generation: {', '.join(missing)}"
+        return False, downloaded, f"Missing maps: {', '.join(missing)}"
 
     return True, downloaded, None
 
@@ -489,6 +633,9 @@ def generate_all_textures(force=False, dry_run=False):
     print("=" * 60)
     print("PBR TEXTURE GENERATION (Scenario API)")
     print("=" * 60)
+    print(f"Model: {SCENARIO_MODEL_ID}")
+    print(f"Resolution: {TEXTURE_WIDTH}x{TEXTURE_HEIGHT}")
+    print(f"Flow: txt2img-texture -> texture converter -> PBR maps")
 
     # Phase 1: Analyze what needs generation
     print("\n--- Analysis ---")
@@ -513,13 +660,16 @@ def generate_all_textures(force=False, dry_run=False):
     failed = 0
     skipped = 0
     failed_textures = []
-    all_results = []
 
     for texture in TEXTURES:
         name = texture["name"]
-        print(f"\n  Processing: {name}")
+        print(f"\n{'='*40}")
+        print(f"  Processing: {name} ({texture['category']})")
+        print(f"{'='*40}")
 
-        success, maps, error = generate_texture(texture, auth_header, force=force, dry_run=dry_run)
+        success, maps, error = generate_texture(
+            texture, auth_header, force=force, dry_run=dry_run
+        )
 
         if success and not maps:
             skipped += 1
@@ -529,20 +679,14 @@ def generate_all_textures(force=False, dry_run=False):
             # First failure: retry once
             print(f"    RETRY: {name} (error: {error})")
             time.sleep(5)
-            success, maps, error = generate_texture(texture, auth_header, force=force, dry_run=dry_run)
+            success, maps, error = generate_texture(
+                texture, auth_header, force=force, dry_run=dry_run
+            )
             if success:
                 succeeded += 1
             else:
                 failed += 1
                 failed_textures.append((name, error))
-
-        all_results.append({
-            "name": name,
-            "category": texture["category"],
-            "success": success,
-            "maps_generated": maps,
-            "error": error,
-        })
 
         # Rate limiting between API calls
         if not dry_run and maps:

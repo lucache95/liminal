@@ -92,25 +92,22 @@ EXPECTED_CHARACTERS = [
 # Texture surface types and their required maps
 TEXTURE_SURFACES = {
     "floors": [
-        "concrete",
-        "grass",
         "asphalt",
+        "grass",
         "wood",
         "dirt",
         "tile",
     ],
     "walls": [
         "brick",
+        "concrete",
+        "wallpaper",
+    ],
+    "props": [
         "metal",
         "rust",
         "dark",
-        "wallpaper",
         "roof_shingles",
-    ],
-    "props": [
-        "concrete",
-        "metal",
-        "wood",
     ],
 }
 
