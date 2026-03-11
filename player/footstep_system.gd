@@ -17,44 +17,44 @@ var _footstep_sounds: Dictionary = {}
 
 # Concrete
 var _concrete_paths: Array[String] = [
-	"res://assets/audio/sfx/footstep_concrete_01.ogg",
-	"res://assets/audio/sfx/footstep_concrete_02.ogg",
-	"res://assets/audio/sfx/footstep_concrete_03.ogg",
+	"res://assets/audio/sfx/footstep_concrete_01.wav",
+	"res://assets/audio/sfx/footstep_concrete_02.wav",
+	"res://assets/audio/sfx/footstep_concrete_03.wav",
 ]
 
 # Wood
 var _wood_paths: Array[String] = [
-	"res://assets/audio/sfx/footstep_wood_01.ogg",
-	"res://assets/audio/sfx/footstep_wood_02.ogg",
-	"res://assets/audio/sfx/footstep_wood_03.ogg",
+	"res://assets/audio/sfx/footstep_wood_01.wav",
+	"res://assets/audio/sfx/footstep_wood_02.wav",
+	"res://assets/audio/sfx/footstep_wood_03.wav",
 ]
 
 # Metal
 var _metal_paths: Array[String] = [
-	"res://assets/audio/sfx/footstep_metal_01.ogg",
-	"res://assets/audio/sfx/footstep_metal_02.ogg",
-	"res://assets/audio/sfx/footstep_metal_03.ogg",
+	"res://assets/audio/sfx/footstep_metal_01.wav",
+	"res://assets/audio/sfx/footstep_metal_02.wav",
+	"res://assets/audio/sfx/footstep_metal_03.wav",
 ]
 
 # Dirt
 var _dirt_paths: Array[String] = [
-	"res://assets/audio/sfx/footstep_dirt_01.ogg",
-	"res://assets/audio/sfx/footstep_dirt_02.ogg",
-	"res://assets/audio/sfx/footstep_dirt_03.ogg",
+	"res://assets/audio/sfx/footstep_dirt_01.wav",
+	"res://assets/audio/sfx/footstep_dirt_02.wav",
+	"res://assets/audio/sfx/footstep_dirt_03.wav",
 ]
 
 # Grass
 var _grass_paths: Array[String] = [
-	"res://assets/audio/sfx/footstep_grass_01.ogg",
-	"res://assets/audio/sfx/footstep_grass_02.ogg",
-	"res://assets/audio/sfx/footstep_grass_03.ogg",
+	"res://assets/audio/sfx/footstep_grass_01.wav",
+	"res://assets/audio/sfx/footstep_grass_02.wav",
+	"res://assets/audio/sfx/footstep_grass_03.wav",
 ]
 
-# Water
+# Water — no water sounds yet, will fallback to empty
 var _water_paths: Array[String] = [
-	"res://assets/audio/sfx/footstep_water_01.ogg",
-	"res://assets/audio/sfx/footstep_water_02.ogg",
-	"res://assets/audio/sfx/footstep_water_03.ogg",
+	"res://assets/audio/sfx/footstep_water_01.wav",
+	"res://assets/audio/sfx/footstep_water_02.wav",
+	"res://assets/audio/sfx/footstep_water_03.wav",
 ]
 
 @onready var _audio_player: AudioStreamPlayer3D = get_parent().get_node("FootstepAudio") as AudioStreamPlayer3D

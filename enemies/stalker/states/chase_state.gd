@@ -25,6 +25,12 @@ func enter(data: Dictionary) -> void:
 	EventBus.monster_alert_changed.emit(1.0)
 	EventBus.tension_changed.emit(0.9)
 
+	# Play jumpscare sting on chase start
+	var sting_path: String = "res://assets/audio/sfx/jumpscare_sting.mp3"
+	if ResourceLoader.exists(sting_path):
+		var sting: AudioStream = load(sting_path)
+		AudioManager.play_stinger(sting)
+
 	# Set initial target from data or blackboard
 	var target_pos: Vector3 = data.get(
 		"last_known_position",

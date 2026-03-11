@@ -73,6 +73,10 @@ func start_new_run(custom_seed: int = -1) -> void:
 	get_tree().paused = false
 
 	EventBus.game_started.emit(current_seed)
+
+	# Initialize ambient audio layers
+	_setup_ambient_audio()
+
 	SceneManager.change_scene(TOWN_LEVEL_PATH)
 
 
@@ -110,3 +114,30 @@ func _on_all_objectives_completed() -> void:
 
 func _on_player_died() -> void:
 	end_run("caught")
+
+# ---------------------------------------------------------------------------
+# Ambient audio
+# ---------------------------------------------------------------------------
+
+func _setup_ambient_audio() -> void:
+	# Base layer: horror drone (randomly chosen)
+	var drone_paths: Array[String] = [
+		"res://assets/audio/sfx/horror_drone_01.mp3",
+		"res://assets/audio/sfx/horror_drone_02.mp3",
+	]
+	var drone_path: String = drone_paths[randi() % drone_paths.size()]
+	if ResourceLoader.exists(drone_path):
+		var drone: AudioStream = load(drone_path)
+		AudioManager.crossfade_layer("base_layer", drone, 3.0)
+
+	# Weather layer: wind loop
+	var wind_path: String = "res://assets/audio/ambience/wind_loop.wav"
+	if ResourceLoader.exists(wind_path):
+		var wind: AudioStream = load(wind_path)
+		AudioManager.crossfade_layer("weather_layer", wind, 4.0)
+
+	# Tension layer: heartbeat (volume controlled by tension_changed signal)
+	var heartbeat_path: String = "res://assets/audio/sfx/heartbeat_tension.mp3"
+	if ResourceLoader.exists(heartbeat_path):
+		var heartbeat: AudioStream = load(heartbeat_path)
+		AudioManager.tension_layer.stream = heartbeat
