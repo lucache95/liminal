@@ -4,16 +4,16 @@
 Multi-step pipeline: Generate base model (Meshy text-to-3D) -> Rig (Meshy rigging API)
 -> Animate (Meshy animation API) -> Download final GLB.
 
-Generates three monsters sharing visual DNA (pale grey skin, dark veiny texture):
-  - Stalker: Tall humanoid hunter with elongated limbs
-  - Lurker: Dark shadowy silhouette (rigging may fail -> Tripo fallback)
-  - Ambusher: Ceiling crawler with spider-like proportions
+Generates three monsters from Caleb's Monster Concepts document:
+  - Echo Walker: Tall thin silhouette, sound-based teleportation, hollow ear indentations
+  - Lantern Widow: Ragged hooded figure with swinging lantern, hunts in darkness
+  - Window Man: Tall bald grinning figure, watches from windows, fast charge attack
 
 Usage:
-    python3 generate_monsters.py                  # Generate all three monsters
-    python3 generate_monsters.py --monster stalker # Generate one monster
-    python3 generate_monsters.py --force           # Regenerate everything
-    python3 generate_monsters.py --help            # Show help
+    python3 generate_monsters.py                       # Generate all three monsters
+    python3 generate_monsters.py --monster echo_walker  # Generate one monster
+    python3 generate_monsters.py --force                # Regenerate everything
+    python3 generate_monsters.py --help                 # Show help
 """
 
 import argparse
@@ -48,43 +48,47 @@ CHARACTERS_DIR = BASE_DIR / "models" / "characters"
 TASKS_FILE = CHARACTERS_DIR / "monster_tasks.json"
 
 # Shared visual DNA keywords for consistency across all three monsters
-SHARED_DNA = "pale grey skin, dark veiny texture, horror creature, tattered remnants"
+SHARED_DNA = "dark horror creature, pale skin, gaunt, nightmarish, abandoned town"
 NEGATIVE_PROMPT = "cartoon, anime, bright, colorful, cute, high detail, photorealistic, cute, chibi"
 
-# Monster definitions
+# Monster definitions — based on Caleb's Monster Concepts document
 MONSTERS = {
-    "stalker": {
+    "echo_walker": {
         "prompt": (
-            "Grotesque tall humanoid horror monster, elongated limbs, "
-            "pale grey skin, eyeless face with wide mouth of sharp teeth, "
-            "hunched posture, tattered dark clothing remnants, dark veiny texture, "
-            "bipedal, A-pose for rigging, game character"
+            "Tall thin horror monster silhouette, gaunt elongated humanoid, "
+            "bald smooth head with large hollow ear-like indentations on sides of skull, "
+            "eyeless face, extremely thin emaciated body, long spindly arms and legs, "
+            "pale grey skin stretched over bones, tattered dark clothing remnants, "
+            "hunched predatory posture, bipedal, A-pose for rigging, game character"
         ),
-        "height_meters": 2.2,
+        "height_meters": 2.4,
         "animations": ["idle", "walk", "attack"],
-        "output_file": "stalker_monster.glb",
+        "output_file": "echo_walker_monster.glb",
     },
-    "lurker": {
+    "lantern_widow": {
         "prompt": (
-            "Dark shadowy humanoid silhouette horror creature, pale grey skin "
-            "visible through translucent darkness, vague limb shapes, formless "
-            "dark entity, dark veiny texture, bipedal stance with hunched posture, "
-            "A-pose for rigging, game character"
-        ),
-        "height_meters": 1.6,
-        "animations": ["idle", "walk"],
-        "output_file": "lurker_monster.glb",
-    },
-    "ambusher": {
-        "prompt": (
-            "Elongated horror creature with extra-long limbs for ceiling crawling, "
-            "pale grey skin, dark veiny texture, spider-like proportions, sharp claws "
-            "on hands and feet, tattered remnants, bipedal humanoid base, "
-            "A-pose for rigging, game character"
+            "Ragged hooded horror figure carrying a swinging lantern, "
+            "long tattered dark robes dragging on the ground, hunched feminine silhouette, "
+            "face hidden in deep hood with long stringy wet hair hanging down, "
+            "one bony hand holding an old rusty iron lantern with warm glow, "
+            "other hand with long claw-like fingers, dark dripping wet fabric, "
+            "ghostly mourning figure, bipedal, A-pose for rigging, game character"
         ),
         "height_meters": 1.8,
+        "animations": ["idle", "walk"],
+        "output_file": "lantern_widow_monster.glb",
+    },
+    "window_man": {
+        "prompt": (
+            "Tall bald horror figure with unnaturally wide grinning mouth full of teeth, "
+            "pale white skin, dark hollow eye sockets with small glowing eyes, "
+            "wearing a dark formal suit jacket, long thin fingers with pointed tips, "
+            "unnervingly human proportions but slightly too tall and too thin, "
+            "unsettling smile frozen on face, bipedal, A-pose for rigging, game character"
+        ),
+        "height_meters": 2.0,
         "animations": ["idle", "walk", "attack"],
-        "output_file": "ambusher_monster.glb",
+        "output_file": "window_man_monster.glb",
     },
 }
 
@@ -482,22 +486,22 @@ def rig_monster(glb_url, monster_name, monster_config, tasks):
     if rigged_url:
         return rig_task_id, rigged_url
 
-    # Lurker fallback: try Tripo
-    if monster_name == "lurker":
-        print(f"  Meshy rigging failed for Lurker, trying Tripo fallback...")
+    # Lantern Widow fallback: try Tripo (robed figure is hard to rig)
+    if monster_name == "lantern_widow":
+        print(f"  Meshy rigging failed for Lantern Widow, trying Tripo fallback...")
         rig_task_id, rigged_url = rig_model_tripo(
             monster_config["prompt"], monster_name, tasks
         )
         if rigged_url:
             return rig_task_id, rigged_url
-        # Both failed -- Lurker will use shader animation in Phase 7
-        print(f"  Both Meshy and Tripo rigging failed for Lurker.")
-        print(f"  Lurker will use unrigged mesh with shader-based animation (Phase 7).")
+        # Both failed -- will use unrigged mesh with shader animation
+        print(f"  Both Meshy and Tripo rigging failed for Lantern Widow.")
+        print(f"  Will use unrigged mesh with shader-based animation (Phase 7).")
         tasks[monster_name]["rigging_final_status"] = "UNRIGGED_SHADER_FALLBACK"
         save_tasks(tasks)
         return None, None
 
-    # Non-Lurker: retry Meshy once
+    # Other monsters: retry Meshy once
     print(f"  Retrying Meshy rigging for {monster_name}...")
     # Clear previous rigging state to force re-attempt
     if monster_name in tasks:

@@ -84,9 +84,9 @@ EXPECTED_PROPS = [
 ]
 
 EXPECTED_CHARACTERS = [
-    "stalker_monster",
-    "lurker_monster",
-    "ambusher_monster",
+    "echo_walker_monster",
+    "lantern_widow_monster",
+    "window_man_monster",
 ]
 
 # Texture surface types and their required maps
