@@ -14,6 +14,7 @@ var _current_ambient_zone: StringName = &"default"
 
 
 func _ready() -> void:
+	ModelReplacer.replace_all(self)
 	_spawn_player()
 	_spawn_monster()
 	_setup_objectives()
