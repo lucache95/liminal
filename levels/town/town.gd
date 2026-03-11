@@ -18,6 +18,14 @@ func _ready() -> void:
 	_spawn_monster()
 	_setup_objectives()
 	_connect_audio_zones()
+	_setup_ui()
+
+
+func _setup_ui() -> void:
+	add_child(preload("res://ui/hud/hud.tscn").instantiate())
+	add_child(preload("res://ui/pause_menu/pause_menu.tscn").instantiate())
+	add_child(preload("res://ui/death_screen/death_screen.tscn").instantiate())
+	add_child(preload("res://shaders/post_process.tscn").instantiate())
 
 
 func _process(delta: float) -> void:

@@ -9,6 +9,7 @@ func _ready() -> void:
 	_spawn_player()
 	_spawn_monster()
 	_setup_objectives()
+	_setup_ui()
 
 
 func _spawn_player() -> void:
@@ -31,4 +32,19 @@ func _setup_objectives() -> void:
 	for child: Node in $ObjectiveSpawns.get_children():
 		if child is Marker3D:
 			spawn_points.append(child)
-	# ObjectiveManager.spawn_objectives(spawn_points) -- called when available
+	if spawn_points.size() > 0:
+		ObjectiveManager.spawn_objectives(spawn_points)
+
+
+func _setup_ui() -> void:
+	var hud: PackedScene = preload("res://ui/hud/hud.tscn")
+	add_child(hud.instantiate())
+
+	var pause_menu: PackedScene = preload("res://ui/pause_menu/pause_menu.tscn")
+	add_child(pause_menu.instantiate())
+
+	var death_screen: PackedScene = preload("res://ui/death_screen/death_screen.tscn")
+	add_child(death_screen.instantiate())
+
+	var post_process: PackedScene = preload("res://shaders/post_process.tscn")
+	add_child(post_process.instantiate())
