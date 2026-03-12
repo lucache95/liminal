@@ -2,6 +2,14 @@ extends Node3D
 ## Main town level controller.
 ## Handles player/monster spawning, objectives, audio zones, and day/night.
 
+enum MonsterType { STALKER, LURKER, AMBUSHER }
+
+const MONSTER_SCENES: Dictionary = {
+	MonsterType.STALKER: "res://enemies/stalker/stalker.tscn",
+	MonsterType.LURKER: "res://enemies/lurker/lurker.tscn",
+	MonsterType.AMBUSHER: "res://enemies/ambusher/ambusher.tscn",
+}
+
 @onready var player_spawn: Marker3D = $PlayerSpawn
 @onready var patrol_points: Node3D = $PatrolPoints
 @onready var moonlight: DirectionalLight3D = $DirectionalLight3D
@@ -14,6 +22,7 @@ func _ready() -> void:
 	# All buildings and props are static scene instances in town.tscn
 	_spawn_player()
 	_spawn_monster()
+	_create_retreat_points()
 	_setup_objectives()
 	_connect_audio_zones()
 	_setup_ui()
@@ -68,7 +77,21 @@ func _spawn_player() -> void:
 
 
 func _spawn_monster() -> void:
-	var monster_scene: PackedScene = preload("res://enemies/stalker/stalker.tscn")
+	# Select monster type deterministically from run seed
+	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
+	rng.seed = GameManager.current_seed ^ 0x4D4F4E53  # XOR hash to decorrelate from weather
+	var selected_type: int = rng.randi_range(0, 2)
+
+	EventBus.monster_type_selected.emit(MonsterType.keys()[selected_type])
+
+	# Resolve scene path with fallback to Stalker
+	var scene_path: String = MONSTER_SCENES[selected_type]
+	if not ResourceLoader.exists(scene_path):
+		push_warning("Town: Monster type %s scene not found, falling back to Stalker" % MonsterType.keys()[selected_type])
+		selected_type = MonsterType.STALKER
+		scene_path = MONSTER_SCENES[MonsterType.STALKER]
+
+	var monster_scene: PackedScene = load(scene_path)
 	var monster: CharacterBody3D = monster_scene.instantiate()
 
 	# Pick a random monster spawn point
@@ -79,11 +102,37 @@ func _spawn_monster() -> void:
 
 	if spawns.is_empty():
 		push_error("Town: No monster spawn points found")
+		monster.queue_free()
 		return
 
 	var chosen_spawn: Marker3D = spawns.pick_random()
 	monster.global_position = chosen_spawn.global_position
 	add_child(monster)
+
+	# Instantiate AI Director for Stalker runs only
+	if selected_type == MonsterType.STALKER:
+		var director: AIDirector = AIDirector.new()
+		director.name = "AIDirector"
+		add_child(director)
+
+
+func _create_retreat_points() -> void:
+	## Create Marker3D nodes at map extremes for AI Director retreat navigation.
+	var positions: Array[Vector3] = [
+		Vector3(-80.0, 0.0, -80.0),   # NW
+		Vector3(80.0, 0.0, -80.0),    # NE
+		Vector3(80.0, 0.0, 80.0),     # SE
+		Vector3(-80.0, 0.0, 80.0),    # SW
+		Vector3(0.0, 0.0, -85.0),     # N
+		Vector3(0.0, 0.0, 85.0),      # S
+	]
+
+	for i: int in range(positions.size()):
+		var marker: Marker3D = Marker3D.new()
+		marker.name = "RetreatPoint%d" % i
+		marker.position = positions[i]
+		marker.add_to_group(&"retreat_point")
+		add_child(marker)
 
 
 func _setup_objectives() -> void:

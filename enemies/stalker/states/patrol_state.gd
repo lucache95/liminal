@@ -5,7 +5,7 @@ extends State
 const WAIT_TIME_MIN: float = 3.0
 const WAIT_TIME_MAX: float = 8.0
 const SIGHT_CHECK_INTERVAL: float = 0.2
-const ALERT_SIGHT_THRESHOLD: float = 0.5
+const ALERT_SIGHT_THRESHOLD: float = 0.4
 
 var _current_point_index: int = 0
 var _waiting: bool = false

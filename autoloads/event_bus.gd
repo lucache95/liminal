@@ -14,6 +14,10 @@ signal all_objectives_completed
 # Monster signals
 signal monster_alert_changed(level: float)
 signal monster_state_changed(new_state: String)
+signal monster_type_selected(type_name: String)
+signal director_state_changed(state: String)
+signal lurker_zone_entered
+signal lurker_zone_exited
 
 # Equipment signals
 signal flashlight_toggled(is_on: bool)
