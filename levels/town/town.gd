@@ -42,15 +42,21 @@ func _setup_ui() -> void:
 
 
 func _setup_atmosphere() -> void:
+	var world_env: WorldEnvironment = $WorldEnvironment
+
+	# Day/night cycle system
+	var day_night: DayNightCycle = DayNightCycle.new()
+	day_night.name = "DayNightCycle"
+	day_night.world_env = world_env
+	day_night.sun_light = moonlight
+	day_night.run_duration = GameManager.max_run_time
+	add_child(day_night)
+
+	# Weather preset system
 	var weather: WeatherManager = WeatherManager.new()
 	weather.name = "WeatherManager"
 	add_child(weather)
-	var world_env: WorldEnvironment = $WorldEnvironment
 	weather.apply_weather(GameManager.current_seed, world_env.environment)
-
-
-func _process(delta: float) -> void:
-	_update_day_night(delta)
 
 
 func _spawn_player() -> void:
@@ -123,5 +129,3 @@ func _on_zone_exited(body: Node3D, zone_name: StringName) -> void:
 		# AudioManager.set_ambient_zone(&"default") -- called when available
 
 
-func _update_day_night(delta: float) -> void:
-	moonlight.rotation_degrees.x -= day_night_speed * delta
