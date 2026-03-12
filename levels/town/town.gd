@@ -24,6 +24,12 @@ func _ready() -> void:
 	if OS.is_debug_build():
 		# Defer to next frame so navmesh is ready
 		call_deferred("_validate_navmesh")
+		# Log performance metrics every 5 seconds
+		var perf_timer: Timer = Timer.new()
+		perf_timer.wait_time = 5.0
+		perf_timer.timeout.connect(PerformanceValidator.log_metrics)
+		add_child(perf_timer)
+		perf_timer.start()
 
 
 func _validate_navmesh() -> void:
