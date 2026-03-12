@@ -22,8 +22,8 @@ func enter(data: Dictionary) -> void:
 
 	# Max alert
 	_stalker.blackboard["alert_level"] = 1.0
-	EventBus.monster_alert_changed.emit(1.0)
-	EventBus.tension_changed.emit(0.9)
+	EventBus.emit_signal("monster_alert_changed", 1.0)
+	EventBus.emit_signal("tension_changed", 0.9)
 
 	# Play jumpscare sting on chase start
 	var sting_path: String = "res://assets/audio/sfx/jumpscare_sting.mp3"
@@ -58,7 +58,7 @@ func physics_update(delta: float) -> void:
 
 	# Check for kill distance
 	if distance <= KILL_DISTANCE:
-		EventBus.player_died.emit()
+		EventBus.emit_signal("player_died")
 		# Stay in chase state — game over handling is external
 		return
 
@@ -85,7 +85,7 @@ func physics_update(delta: float) -> void:
 	if _tension_timer >= TENSION_UPDATE_INTERVAL:
 		_tension_timer = 0.0
 		var tension: float = _calculate_tension(distance)
-		EventBus.tension_changed.emit(tension)
+		EventBus.emit_signal("tension_changed", tension)
 
 	# Lost sight for too long — transition to search
 	if _time_since_player_seen >= LOSE_SIGHT_TIMEOUT:

@@ -24,7 +24,7 @@ var _breathing_player: AudioStreamPlayer3D
 func _ready() -> void:
 	_load_sounds()
 	_create_breathing_player()
-	EventBus.monster_state_changed.connect(_on_state_changed)
+	EventBus.connect("monster_state_changed", _on_state_changed)
 
 
 func _physics_process(delta: float) -> void:
@@ -38,7 +38,7 @@ func _physics_process(delta: float) -> void:
 			_footstep_timer = 0.0
 			_play_random(_audio_player, _footstep_sounds, 0.85, 1.15)
 			# Emit sound for player hearing system
-			EventBus.sound_emitted.emit(_stalker.global_position, 0.6, "monster_footstep")
+			EventBus.emit_signal("sound_emitted", _stalker.global_position, 0.6, "monster_footstep")
 
 	# Ambient breathing
 	_breathing_timer += delta

@@ -40,4 +40,4 @@ func transition_to(target_state_name: String, data: Dictionary = {}) -> void:
 		current_state.exit()
 	current_state = new_state
 	current_state.enter(data)
-	EventBus.monster_state_changed.emit(target_state_name)
+	EventBus.emit_signal("monster_state_changed", target_state_name)

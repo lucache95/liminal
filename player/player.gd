@@ -188,7 +188,7 @@ func _handle_footsteps(delta: float) -> void:
 		if footstep_system and footstep_system.has_method("play_current_footstep"):
 			footstep_system.play_current_footstep()
 		# Emit sound for AI detection
-		EventBus.sound_emitted.emit(global_position, intensity, "footstep")
+		EventBus.emit_signal("sound_emitted", global_position, intensity, "footstep")
 
 
 ## Returns the stamina as a percentage 0.0 - 1.0.

@@ -62,7 +62,7 @@ func toggle() -> void:
 	else:
 		light_energy = _base_energy  # Reset on turn off
 
-	EventBus.flashlight_toggled.emit(is_on)
+	EventBus.emit_signal("flashlight_toggled", is_on)
 
 
 ## Returns battery as a percentage 0.0 - 100.0.

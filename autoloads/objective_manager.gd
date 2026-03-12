@@ -1,4 +1,3 @@
-class_name ObjectiveManager
 extends Node
 ## Manages the run objective: selects a random objective template, spawns items,
 ## tracks completion progress, and signals when all objectives are done.
@@ -25,9 +24,9 @@ var objective_pool: Array[ObjectiveTemplate] = []
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	_load_objective_pool()
-	EventBus.objective_completed.connect(_on_objective_completed)
-	EventBus.item_picked_up.connect(_on_item_picked_up)
-	EventBus.game_started.connect(_on_game_started)
+	EventBus.connect("objective_completed", _on_objective_completed)
+	EventBus.connect("item_picked_up", _on_item_picked_up)
+	EventBus.connect("game_started", _on_game_started)
 
 
 # ---------------------------------------------------------------------------
@@ -126,7 +125,7 @@ func _on_item_picked_up(item_id: String) -> void:
 
 func _check_completion() -> void:
 	if completed_ids.size() >= required_count:
-		EventBus.all_objectives_completed.emit()
+		EventBus.emit_signal("all_objectives_completed")
 
 
 func get_progress() -> Dictionary:

@@ -27,7 +27,7 @@ func _physics_process(_delta: float) -> void:
 			# New target — show its prompt
 			_current_target = target
 			var prompt: String = target.get_interaction_prompt()
-			EventBus.interaction_prompt_show.emit(prompt)
+			EventBus.emit_signal("interaction_prompt_show", prompt)
 	else:
 		_clear_target()
 
@@ -53,4 +53,4 @@ func _try_interact() -> void:
 func _clear_target() -> void:
 	if _current_target != null:
 		_current_target = null
-		EventBus.interaction_prompt_hide.emit()
+		EventBus.emit_signal("interaction_prompt_hide")

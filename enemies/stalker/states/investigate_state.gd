@@ -36,8 +36,8 @@ func enter(data: Dictionary) -> void:
 		_stalker.blackboard.get("alert_level", 0.0) + 0.1,
 		0.0, 1.0
 	)
-	EventBus.monster_alert_changed.emit(_stalker.blackboard["alert_level"])
-	EventBus.tension_changed.emit(clampf(_stalker.blackboard["alert_level"] * 0.6, 0.0, 0.6))
+	EventBus.emit_signal("monster_alert_changed", _stalker.blackboard["alert_level"])
+	EventBus.emit_signal("tension_changed", clampf(_stalker.blackboard["alert_level"] * 0.6, 0.0, 0.6))
 
 
 func physics_update(delta: float) -> void:
@@ -65,7 +65,7 @@ func physics_update(delta: float) -> void:
 				_stalker.blackboard.get("alert_level", 0.0) + _stalker.config.alert_buildup_rate * delta * 10.0,
 				0.0, 1.0
 			)
-			EventBus.monster_alert_changed.emit(_stalker.blackboard["alert_level"])
+			EventBus.emit_signal("monster_alert_changed", _stalker.blackboard["alert_level"])
 
 			if _stalker.blackboard["alert_level"] >= ALERT_CHASE_THRESHOLD:
 				state_machine.transition_to("chasestate", {
@@ -124,6 +124,6 @@ func _lose_interest() -> void:
 		_stalker.blackboard.get("alert_level", 0.0) - 0.2,
 		0.0, 1.0
 	)
-	EventBus.monster_alert_changed.emit(_stalker.blackboard["alert_level"])
-	EventBus.tension_changed.emit(0.2)
+	EventBus.emit_signal("monster_alert_changed", _stalker.blackboard["alert_level"])
+	EventBus.emit_signal("tension_changed", 0.2)
 	state_machine.transition_to("patrolstate")

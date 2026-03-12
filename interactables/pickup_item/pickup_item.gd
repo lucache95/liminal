@@ -47,6 +47,6 @@ func _process(delta: float) -> void:
 # ---------------------------------------------------------------------------
 
 func _on_interact(_player: CharacterBody3D) -> void:
-	EventBus.item_picked_up.emit(item_id)
-	EventBus.sound_emitted.emit(global_position, PICKUP_SOUND_INTENSITY, "pickup")
+	EventBus.emit_signal("item_picked_up", item_id)
+	EventBus.emit_signal("sound_emitted", global_position, PICKUP_SOUND_INTENSITY, "pickup")
 	queue_free()

@@ -54,10 +54,10 @@ func _on_interact(_player: CharacterBody3D) -> void:
 		_audio_player.play()
 
 	# Loud sound — alerts the monster
-	EventBus.sound_emitted.emit(global_position, ACTIVATION_SOUND_INTENSITY, "generator")
+	EventBus.emit_signal("sound_emitted", global_position, ACTIVATION_SOUND_INTENSITY, "generator")
 
 	# Mark objective as completed
-	EventBus.objective_completed.emit(generator_id)
+	EventBus.emit_signal("objective_completed", generator_id)
 
 	# Flicker the indicator light on for dramatic effect
 	_flicker_light_on()

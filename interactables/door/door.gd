@@ -76,7 +76,7 @@ func _toggle_door() -> void:
 	_tween.tween_property(self, "rotation_degrees:y", target_y, TWEEN_DURATION)
 
 	_play_door_sound()
-	EventBus.sound_emitted.emit(global_position, SOUND_INTENSITY, "door")
+	EventBus.emit_signal("sound_emitted", global_position, SOUND_INTENSITY, "door")
 	_update_prompt()
 
 

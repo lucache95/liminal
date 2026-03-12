@@ -123,7 +123,7 @@ func _try_shift() -> void:
 	if can_rotate:
 		_shift_rotation()
 
-	EventBus.geometry_shifted.emit(get_path())
+	EventBus.emit_signal("geometry_shifted", get_path())
 
 
 func _shift_position() -> void:

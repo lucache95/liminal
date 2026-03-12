@@ -1,4 +1,3 @@
-class_name EventBus
 extends Node
 ## Global signal bus for decoupled cross-system communication.
 ## All cross-system signals are declared here. No logic — pure signal relay.

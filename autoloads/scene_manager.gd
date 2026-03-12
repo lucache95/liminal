@@ -1,4 +1,3 @@
-class_name SceneManager
 extends Node
 ## Handles scene transitions with fade-to-black using async resource loading.
 

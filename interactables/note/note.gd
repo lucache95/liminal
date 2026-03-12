@@ -26,7 +26,7 @@ func _ready() -> void:
 func _on_interact(_player: CharacterBody3D) -> void:
 	# Emit as a collected clue so ObjectiveManager can track it
 	if note_id != "":
-		EventBus.item_picked_up.emit(note_id)
+		EventBus.emit_signal("item_picked_up", note_id)
 
 	# TODO: Replace with proper note UI overlay when implemented
 	print("[Note] %s: %s" % [note_title, note_text])

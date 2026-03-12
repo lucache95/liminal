@@ -11,7 +11,7 @@ var _config: MonsterConfig
 
 
 func _ready() -> void:
-	EventBus.sound_emitted.connect(_on_sound_emitted)
+	EventBus.connect("sound_emitted", _on_sound_emitted)
 
 
 ## Must be called by the stalker after it sets up the config reference.

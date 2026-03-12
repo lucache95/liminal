@@ -26,10 +26,10 @@ func _ready() -> void:
 	flashlight_indicator.visible = false
 	screen_flash.color = Color(1.0, 1.0, 1.0, 0.0)
 
-	EventBus.interaction_prompt_show.connect(_on_interaction_prompt_show)
-	EventBus.interaction_prompt_hide.connect(_on_interaction_prompt_hide)
-	EventBus.flashlight_toggled.connect(_on_flashlight_toggled)
-	EventBus.player_died.connect(_on_player_died)
+	EventBus.connect("interaction_prompt_show", _on_interaction_prompt_show)
+	EventBus.connect("interaction_prompt_hide", _on_interaction_prompt_hide)
+	EventBus.connect("flashlight_toggled", _on_flashlight_toggled)
+	EventBus.connect("player_died", _on_player_died)
 
 # ---------------------------------------------------------------------------
 # Interaction prompt

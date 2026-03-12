@@ -40,7 +40,7 @@ func enter(data: Dictionary) -> void:
 	_generate_search_points()
 
 	# Start tension at moderate level
-	EventBus.tension_changed.emit(0.5)
+	EventBus.emit_signal("tension_changed", 0.5)
 
 	# Navigate to first search point
 	if not _search_points.is_empty():
@@ -72,7 +72,7 @@ func physics_update(delta: float) -> void:
 		_sight_check_timer = 0.0
 		if _stalker.blackboard.get("player_visible", false):
 			_stalker.blackboard["alert_level"] = 1.0
-			EventBus.monster_alert_changed.emit(1.0)
+			EventBus.emit_signal("monster_alert_changed", 1.0)
 			state_machine.transition_to("chasestate", {
 				"last_known_position": _stalker.blackboard["last_known_position"],
 			})
@@ -83,14 +83,14 @@ func physics_update(delta: float) -> void:
 		_tension_timer = 0.0
 		var progress: float = clampf(_search_timer / _stalker.config.search_duration, 0.0, 1.0)
 		var tension: float = lerpf(0.5, 0.1, progress)
-		EventBus.tension_changed.emit(tension)
+		EventBus.emit_signal("tension_changed", tension)
 
 		# Also decay alert level
 		_stalker.blackboard["alert_level"] = clampf(
 			_stalker.blackboard.get("alert_level", 0.0) - _stalker.config.alert_decay_rate * TENSION_DECAY_INTERVAL,
 			0.0, 1.0
 		)
-		EventBus.monster_alert_changed.emit(_stalker.blackboard["alert_level"])
+		EventBus.emit_signal("monster_alert_changed", _stalker.blackboard["alert_level"])
 
 	# Search duration expired — give up
 	if _search_timer >= _stalker.config.search_duration:
@@ -151,6 +151,6 @@ func _advance_to_next_point() -> void:
 
 func _give_up() -> void:
 	_stalker.blackboard["alert_level"] = 0.0
-	EventBus.monster_alert_changed.emit(0.0)
-	EventBus.tension_changed.emit(0.1)
+	EventBus.emit_signal("monster_alert_changed", 0.0)
+	EventBus.emit_signal("tension_changed", 0.1)
 	state_machine.transition_to("patrolstate")

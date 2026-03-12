@@ -62,7 +62,7 @@ func physics_update(delta: float) -> void:
 					_stalker.blackboard.get("alert_level", 0.0) + _stalker.config.alert_buildup_rate * delta * strength * 5.0,
 					0.0, 1.0
 				)
-				EventBus.monster_alert_changed.emit(_stalker.blackboard["alert_level"])
+				EventBus.emit_signal("monster_alert_changed", _stalker.blackboard["alert_level"])
 
 				if _stalker.blackboard["alert_level"] >= ALERT_SIGHT_THRESHOLD:
 					state_machine.transition_to("investigatestate", {

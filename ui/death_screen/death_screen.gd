@@ -47,7 +47,7 @@ func _ready() -> void:
 
 	retry_button.pressed.connect(_on_retry_pressed)
 	menu_button.pressed.connect(_on_menu_pressed)
-	EventBus.game_ended.connect(_on_game_ended)
+	EventBus.connect("game_ended", _on_game_ended)
 
 # ---------------------------------------------------------------------------
 # Game end handling

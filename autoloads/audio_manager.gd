@@ -1,4 +1,3 @@
-class_name AudioManager
 extends Node
 ## Manages audio bus volumes and an ambient layer system with crossfade support.
 
@@ -6,13 +5,9 @@ extends Node
 # Constants
 # ---------------------------------------------------------------------------
 
-const BUS_NAMES: PackedStringArray = PackedStringArray([
-	"Master", "Music", "SFX", "Ambience", "Voice",
-])
+var BUS_NAMES: PackedStringArray = ["Master", "Music", "SFX", "Ambience", "Voice"]
 
-const LAYER_NAMES: PackedStringArray = PackedStringArray([
-	"base_layer", "weather_layer", "location_layer", "tension_layer",
-])
+var LAYER_NAMES: PackedStringArray = ["base_layer", "weather_layer", "location_layer", "tension_layer"]
 
 const MIN_DB: float = -80.0
 
@@ -39,7 +34,7 @@ var stinger_player: AudioStreamPlayer
 func _ready() -> void:
 	_cache_bus_indices()
 	_create_layer_nodes()
-	EventBus.tension_changed.connect(_on_tension_changed)
+	EventBus.connect("tension_changed", _on_tension_changed)
 
 
 func _cache_bus_indices() -> void:
@@ -64,7 +59,7 @@ func _create_layer_nodes() -> void:
 func _make_layer_player(node_name: String, bus: String) -> AudioStreamPlayer:
 	var player := AudioStreamPlayer.new()
 	player.name = node_name
-	player.bus = &bus
+	player.bus = StringName(bus)
 	player.volume_db = MIN_DB
 	add_child(player)
 	return player

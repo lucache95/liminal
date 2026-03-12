@@ -12,8 +12,8 @@ var _distortion_tween: Tween
 
 
 func _ready() -> void:
-	EventBus.tension_changed.connect(_on_tension_changed)
-	EventBus.geometry_shifted.connect(_on_geometry_shifted)
+	EventBus.connect("tension_changed", _on_tension_changed)
+	EventBus.connect("geometry_shifted", _on_geometry_shifted)
 	# Set initial low-tension values
 	set_tension(0.0)
 

@@ -52,7 +52,7 @@ func _spawn_player() -> void:
 	var player: CharacterBody3D = player_scene.instantiate()
 	player.global_position = player_spawn.global_position
 	add_child(player)
-	EventBus.player_spawned.emit(player)
+	EventBus.emit_signal("player_spawned", player)
 
 
 func _spawn_monster() -> void:

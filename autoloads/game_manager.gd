@@ -1,4 +1,3 @@
-class_name GameManager
 extends Node
 ## Manages game state, run configuration, pause, and the run timer.
 
@@ -32,8 +31,8 @@ var current_state: GameState = GameState.MENU
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
-	EventBus.all_objectives_completed.connect(_on_all_objectives_completed)
-	EventBus.player_died.connect(_on_player_died)
+	EventBus.connect("all_objectives_completed", _on_all_objectives_completed)
+	EventBus.connect("player_died", _on_player_died)
 
 
 func _process(delta: float) -> void:
@@ -72,7 +71,7 @@ func start_new_run(custom_seed: int = -1) -> void:
 	current_state = GameState.PLAYING
 	get_tree().paused = false
 
-	EventBus.game_started.emit(current_seed)
+	EventBus.emit_signal("game_started", current_seed)
 
 	# Initialize ambient audio layers
 	_setup_ambient_audio()
@@ -83,7 +82,7 @@ func start_new_run(custom_seed: int = -1) -> void:
 func end_run(reason: String) -> void:
 	run_active = false
 	current_state = GameState.GAME_OVER
-	EventBus.game_ended.emit(reason)
+	EventBus.emit_signal("game_ended", reason)
 
 # ---------------------------------------------------------------------------
 # Pause
