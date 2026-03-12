@@ -42,6 +42,9 @@ func _process(delta: float) -> void:
 		toggle()
 		return
 
+	# Emit battery level to HUD every frame while on
+	EventBus.battery_changed.emit(get_battery_percent())
+
 	# Flicker effect when battery is low
 	if get_battery_percent() < FLICKER_LOW_THRESHOLD:
 		_update_flicker(delta)

@@ -17,6 +17,7 @@ signal monster_state_changed(new_state: String)
 
 # Equipment signals
 signal flashlight_toggled(is_on: bool)
+signal battery_changed(percent: float)
 
 # Game flow signals
 signal game_started(seed: int)

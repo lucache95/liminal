@@ -29,6 +29,7 @@ func _ready() -> void:
 	EventBus.connect("interaction_prompt_show", _on_interaction_prompt_show)
 	EventBus.connect("interaction_prompt_hide", _on_interaction_prompt_hide)
 	EventBus.connect("flashlight_toggled", _on_flashlight_toggled)
+	EventBus.connect("battery_changed", update_battery)
 	EventBus.connect("player_died", _on_player_died)
 
 # ---------------------------------------------------------------------------
@@ -51,9 +52,17 @@ func _on_flashlight_toggled(is_on: bool) -> void:
 	flashlight_indicator.visible = is_on
 
 
-## Update the battery indicator percentage (0.0 to 100.0).
+## Update the battery indicator percentage (0.0 to 100.0) with color coding.
 func update_battery(percent: float) -> void:
 	flashlight_indicator.value = clampf(percent, 0.0, 100.0)
+
+	# Color-code the bar: green > 50%, yellow 20-50%, red < 20%
+	if percent > 50.0:
+		flashlight_indicator.modulate = Color(0.3, 0.8, 0.3)
+	elif percent > 20.0:
+		flashlight_indicator.modulate = Color(0.9, 0.8, 0.2)
+	else:
+		flashlight_indicator.modulate = Color(0.9, 0.2, 0.2)
 
 # ---------------------------------------------------------------------------
 # Screen flash
