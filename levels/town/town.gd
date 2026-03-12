@@ -7,9 +7,6 @@ extends Node3D
 @onready var moonlight: DirectionalLight3D = $DirectionalLight3D
 @onready var audio_zones: Node3D = $AudioZones
 
-## Day/night cycle speed (degrees per second). Very slow rotation.
-@export var day_night_speed: float = 0.5
-
 var _current_ambient_zone: StringName = &"default"
 
 
@@ -20,6 +17,7 @@ func _ready() -> void:
 	_setup_objectives()
 	_connect_audio_zones()
 	_setup_ui()
+	_setup_atmosphere()
 
 	if OS.is_debug_build():
 		# Defer to next frame so navmesh is ready
@@ -41,6 +39,14 @@ func _setup_ui() -> void:
 	add_child(preload("res://ui/pause_menu/pause_menu.tscn").instantiate())
 	add_child(preload("res://ui/death_screen/death_screen.tscn").instantiate())
 	add_child(preload("res://shaders/post_process.tscn").instantiate())
+
+
+func _setup_atmosphere() -> void:
+	var weather: WeatherManager = WeatherManager.new()
+	weather.name = "WeatherManager"
+	add_child(weather)
+	var world_env: WorldEnvironment = $WorldEnvironment
+	weather.apply_weather(GameManager.current_seed, world_env.environment)
 
 
 func _process(delta: float) -> void:
