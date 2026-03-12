@@ -50,11 +50,11 @@ var _grass_paths: Array[String] = [
 	"res://assets/audio/sfx/footstep_grass_03.wav",
 ]
 
-# Water — no water sounds yet, will fallback to empty
+# Water — actual files are mp3 in footsteps/ directory
 var _water_paths: Array[String] = [
-	"res://assets/audio/sfx/footstep_water_01.wav",
-	"res://assets/audio/sfx/footstep_water_02.wav",
-	"res://assets/audio/sfx/footstep_water_03.wav",
+	"res://assets/audio/footsteps/water_step_1.mp3",
+	"res://assets/audio/footsteps/water_step_2.mp3",
+	"res://assets/audio/footsteps/water_step_3.mp3",
 ]
 
 @onready var _audio_player: AudioStreamPlayer3D = get_parent().get_node("FootstepAudio") as AudioStreamPlayer3D
