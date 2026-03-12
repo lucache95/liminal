@@ -7,7 +7,7 @@ extends Node
 
 var BUS_NAMES: PackedStringArray = ["Master", "Music", "SFX", "Ambience", "Voice"]
 
-var LAYER_NAMES: PackedStringArray = ["base_layer", "weather_layer", "location_layer", "tension_layer", "sanity_layer"]
+var LAYER_NAMES: PackedStringArray = ["base_layer", "weather_layer", "location_layer", "tension_layer", "sanity_layer", "heartbeat_layer", "drone_layer"]
 
 const MIN_DB: float = -80.0
 
@@ -26,6 +26,8 @@ var weather_layer: AudioStreamPlayer
 var location_layer: AudioStreamPlayer
 var tension_layer: AudioStreamPlayer
 var sanity_layer: AudioStreamPlayer
+var heartbeat_layer: AudioStreamPlayer
+var drone_layer: AudioStreamPlayer
 var stinger_player: AudioStreamPlayer
 
 # ---------------------------------------------------------------------------
@@ -56,6 +58,8 @@ func _create_layer_nodes() -> void:
 	location_layer = _make_layer_player("LocationLayer", "Ambience")
 	tension_layer = _make_layer_player("TensionLayer", "SFX")
 	sanity_layer = _make_layer_player("SanityLayer", "Ambience")
+	heartbeat_layer = _make_layer_player("HeartbeatLayer", "SFX")
+	drone_layer = _make_layer_player("DroneLayer", "Ambience")
 	stinger_player = _make_layer_player("StingerPlayer", "SFX")
 
 
@@ -134,6 +138,24 @@ func play_stinger(stream: AudioStream) -> void:
 	stinger_player.play()
 
 # ---------------------------------------------------------------------------
+# Proximity audio
+# ---------------------------------------------------------------------------
+
+## Initialize proximity audio layers with heartbeat and drone streams.
+## Called by ProximityAudioController during its deferred setup.
+func setup_proximity_audio() -> void:
+	var hb_path: String = "res://assets/audio/sfx/heartbeat_tension.mp3"
+	if ResourceLoader.exists(hb_path):
+		heartbeat_layer.stream = load(hb_path)
+		heartbeat_layer.volume_db = MIN_DB
+		heartbeat_layer.play()
+	var drone_path: String = "res://assets/audio/sfx/horror_drone_01.mp3"
+	if ResourceLoader.exists(drone_path):
+		drone_layer.stream = load(drone_path)
+		drone_layer.volume_db = MIN_DB
+		drone_layer.play()
+
+# ---------------------------------------------------------------------------
 # Internal helpers
 # ---------------------------------------------------------------------------
 
@@ -149,6 +171,10 @@ func _get_layer_player(layer_name: String) -> AudioStreamPlayer:
 			return tension_layer
 		"sanity_layer":
 			return sanity_layer
+		"heartbeat_layer":
+			return heartbeat_layer
+		"drone_layer":
+			return drone_layer
 		_:
 			push_error("AudioManager: unknown layer '%s'." % layer_name)
 			return null

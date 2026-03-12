@@ -135,8 +135,5 @@ func _setup_ambient_audio() -> void:
 		var wind: AudioStream = load(wind_path)
 		AudioManager.crossfade_layer("weather_layer", wind, 4.0)
 
-	# Tension layer: heartbeat (volume controlled by tension_changed signal)
-	var heartbeat_path: String = "res://assets/audio/sfx/heartbeat_tension.mp3"
-	if ResourceLoader.exists(heartbeat_path):
-		var heartbeat: AudioStream = load(heartbeat_path)
-		AudioManager.tension_layer.stream = heartbeat
+	# NOTE: Heartbeat audio now owned by ProximityAudioController (Phase 6).
+	# Tension layer remains available for chase_state via tension_changed signal.
