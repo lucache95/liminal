@@ -1485,6 +1485,42 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 0.5, 35)
 [node name="ObjSpawn08" type="Marker3D" parent="ObjectiveSpawns" groups=["spawn_point"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.5, 50)
 
+[node name="ObjSpawn09" type="Marker3D" parent="ObjectiveSpawns" groups=["spawn_point"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 0.5, -50)
+
+[node name="ObjSpawn10" type="Marker3D" parent="ObjectiveSpawns" groups=["spawn_point"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50, 0.5, -50)
+
+[node name="ObjSpawn11" type="Marker3D" parent="ObjectiveSpawns" groups=["spawn_point"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 0.5, 40)
+
+[node name="ObjSpawn12" type="Marker3D" parent="ObjectiveSpawns" groups=["spawn_point"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50, 0.5, 40)
+
+[node name="ObjSpawn13" type="Marker3D" parent="ObjectiveSpawns" groups=["spawn_point"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0.5, -35)
+
+[node name="ObjSpawn14" type="Marker3D" parent="ObjectiveSpawns" groups=["spawn_point"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="ObjSpawn15" type="Marker3D" parent="ObjectiveSpawns" groups=["spawn_point"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, 0.5, 30)
+
+[node name="ObjSpawn16" type="Marker3D" parent="ObjectiveSpawns" groups=["spawn_point"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0.5, 0)
+
+[node name="ObjSpawn17" type="Marker3D" parent="ObjectiveSpawns" groups=["spawn_point"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 0.5, -15)
+
+[node name="ObjSpawn18" type="Marker3D" parent="ObjectiveSpawns" groups=["spawn_point"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.5, -30)
+
+[node name="ObjSpawn19" type="Marker3D" parent="ObjectiveSpawns" groups=["spawn_point"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0.5, 50)
+
+[node name="ObjSpawn20" type="Marker3D" parent="ObjectiveSpawns" groups=["spawn_point"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.5, 25)
+
 [node name="PatrolPoints" type="Node3D" parent="."]
 
 [node name="P01" type="Marker3D" parent="PatrolPoints"]
