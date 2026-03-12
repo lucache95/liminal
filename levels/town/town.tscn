@@ -75,8 +75,8 @@ glow_enabled = true
 glow_intensity = 0.3
 glow_bloom = 0.1
 fog_enabled = true
-fog_light_color = Color(0.05, 0.06, 0.08, 1)
-fog_density = 0.003
+fog_light_color = Color(0.05, 0.05, 0.08, 1)
+fog_density = 0.01
 volumetric_fog_enabled = true
 volumetric_fog_density = 0.015
 volumetric_fog_albedo = Color(0.05, 0.06, 0.08, 1)
@@ -447,18 +447,33 @@ omni_range = 12.0
 
 [node name="StreetLamp01" parent="TownSquare" instance=ExtResource("8_slmp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 8)
+visibility_range_begin = 0.0
+visibility_range_end = 60.0
+visibility_range_fade_mode = 1
 
 [node name="StreetLamp02" parent="TownSquare" instance=ExtResource("8_slmp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, -8)
+visibility_range_begin = 0.0
+visibility_range_end = 60.0
+visibility_range_fade_mode = 1
 
 [node name="TrashCan01" parent="TownSquare" instance=ExtResource("8_trsh")]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 6, 0, 3)
+visibility_range_begin = 0.0
+visibility_range_end = 60.0
+visibility_range_fade_mode = 1
 
 [node name="DeadTree01" parent="TownSquare" instance=ExtResource("8_dtree")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 7)
+visibility_range_begin = 0.0
+visibility_range_end = 60.0
+visibility_range_fade_mode = 1
 
 [node name="PhoneBooth01" parent="TownSquare" instance=ExtResource("8_phon")]
 transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -9, 0, -3)
+visibility_range_begin = 0.0
+visibility_range_end = 60.0
+visibility_range_fade_mode = 1
 
 [node name="MainStreet" type="Node3D" parent="."]
 
@@ -469,6 +484,9 @@ collision_mask = 0
 
 [node name="Model" parent="MainStreet/Shop01" instance=ExtResource("7_gs01")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+visibility_range_begin = 0.0
+visibility_range_end = 150.0
+visibility_range_fade_mode = 1
 
 [node name="Collision" type="CollisionShape3D" parent="MainStreet/Shop01"]
 shape = SubResource("BoxShape3D_shop01")
@@ -480,6 +498,9 @@ collision_mask = 0
 
 [node name="Model" parent="MainStreet/Shop02" instance=ExtResource("7_din01")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+visibility_range_begin = 0.0
+visibility_range_end = 150.0
+visibility_range_fade_mode = 1
 
 [node name="Collision" type="CollisionShape3D" parent="MainStreet/Shop02"]
 shape = SubResource("BoxShape3D_shop02")
@@ -491,6 +512,9 @@ collision_mask = 0
 
 [node name="Model" parent="MainStreet/Shop03" instance=ExtResource("7_hw01")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+visibility_range_begin = 0.0
+visibility_range_end = 150.0
+visibility_range_fade_mode = 1
 
 [node name="Collision" type="CollisionShape3D" parent="MainStreet/Shop03"]
 shape = SubResource("BoxShape3D_shop03")
@@ -502,6 +526,9 @@ collision_mask = 0
 
 [node name="Model" parent="MainStreet/Shop04" instance=ExtResource("7_bar01")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+visibility_range_begin = 0.0
+visibility_range_end = 150.0
+visibility_range_fade_mode = 1
 
 [node name="Collision" type="CollisionShape3D" parent="MainStreet/Shop04"]
 shape = SubResource("BoxShape3D_shop04")
@@ -513,6 +540,9 @@ collision_mask = 0
 
 [node name="Model" parent="MainStreet/Pharmacy" instance=ExtResource("7_phm01")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+visibility_range_begin = 0.0
+visibility_range_end = 150.0
+visibility_range_fade_mode = 1
 
 [node name="Collision" type="CollisionShape3D" parent="MainStreet/Pharmacy"]
 shape = SubResource("BoxShape3D_pharmacy")
@@ -538,12 +568,21 @@ omni_range = 10.0
 
 [node name="StreetLamp01" parent="MainStreet" instance=ExtResource("8_slmp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 12)
+visibility_range_begin = 0.0
+visibility_range_end = 60.0
+visibility_range_fade_mode = 1
 
 [node name="StreetLamp02" parent="MainStreet" instance=ExtResource("8_slmp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 22)
+visibility_range_begin = 0.0
+visibility_range_end = 60.0
+visibility_range_fade_mode = 1
 
 [node name="StreetLamp03" parent="MainStreet" instance=ExtResource("8_slmp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 32)
+visibility_range_begin = 0.0
+visibility_range_end = 60.0
+visibility_range_fade_mode = 1
 
 [node name="Dumpster01" type="StaticBody3D" parent="MainStreet"]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 15, 0, 18)
@@ -551,27 +590,48 @@ collision_layer = 1
 collision_mask = 0
 
 [node name="Model" parent="MainStreet/Dumpster01" instance=ExtResource("8_dmp")]
+visibility_range_begin = 0.0
+visibility_range_end = 100.0
+visibility_range_fade_mode = 1
 
 [node name="Collision" type="CollisionShape3D" parent="MainStreet/Dumpster01"]
 shape = SubResource("BoxShape3D_dumpster")
 
 [node name="Mailbox01" parent="MainStreet" instance=ExtResource("8_mbx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 17)
+visibility_range_begin = 0.0
+visibility_range_end = 60.0
+visibility_range_fade_mode = 1
 
 [node name="Mailbox02" parent="MainStreet" instance=ExtResource("8_mbx")]
 transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -6, 0, 28)
+visibility_range_begin = 0.0
+visibility_range_end = 60.0
+visibility_range_fade_mode = 1
 
 [node name="FireHydrant01" parent="MainStreet" instance=ExtResource("8_fhyd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 14)
+visibility_range_begin = 0.0
+visibility_range_end = 60.0
+visibility_range_fade_mode = 1
 
 [node name="FireHydrant02" parent="MainStreet" instance=ExtResource("8_fhyd")]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -4, 0, 26)
+visibility_range_begin = 0.0
+visibility_range_end = 60.0
+visibility_range_fade_mode = 1
 
 [node name="TrafficCone01" parent="MainStreet" instance=ExtResource("8_cone")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 20)
+visibility_range_begin = 0.0
+visibility_range_end = 60.0
+visibility_range_fade_mode = 1
 
 [node name="TrafficCone02" parent="MainStreet" instance=ExtResource("8_cone")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 24)
+visibility_range_begin = 0.0
+visibility_range_end = 60.0
+visibility_range_fade_mode = 1
 
 [node name="GasStation" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 0, -25)
@@ -583,6 +643,9 @@ collision_mask = 0
 
 [node name="Model" parent="GasStation/MainBuilding" instance=ExtResource("7_gas01")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+visibility_range_begin = 0.0
+visibility_range_end = 150.0
+visibility_range_fade_mode = 1
 
 [node name="Collision" type="CollisionShape3D" parent="GasStation/MainBuilding"]
 shape = SubResource("BoxShape3D_gasstation")
@@ -647,12 +710,18 @@ collision_layer = 1
 collision_mask = 0
 
 [node name="Model" parent="GasStation/OldCar01" instance=ExtResource("8_ocar")]
+visibility_range_begin = 0.0
+visibility_range_end = 100.0
+visibility_range_fade_mode = 1
 
 [node name="Collision" type="CollisionShape3D" parent="GasStation/OldCar01"]
 shape = SubResource("BoxShape3D_old_car")
 
 [node name="TireStack01" parent="GasStation" instance=ExtResource("8_tire")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, -3)
+visibility_range_begin = 0.0
+visibility_range_end = 60.0
+visibility_range_fade_mode = 1
 
 [node name="RoadBarrier01" type="StaticBody3D" parent="GasStation"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -5)
@@ -660,18 +729,30 @@ collision_layer = 1
 collision_mask = 0
 
 [node name="Model" parent="GasStation/RoadBarrier01" instance=ExtResource("8_rbar")]
+visibility_range_begin = 0.0
+visibility_range_end = 100.0
+visibility_range_fade_mode = 1
 
 [node name="Collision" type="CollisionShape3D" parent="GasStation/RoadBarrier01"]
 shape = SubResource("BoxShape3D_road_barrier")
 
 [node name="WoodenBarrel01" parent="GasStation" instance=ExtResource("8_wbrl")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, 4)
+visibility_range_begin = 0.0
+visibility_range_end = 60.0
+visibility_range_fade_mode = 1
 
 [node name="WoodenBarrel02" parent="GasStation" instance=ExtResource("8_wbrl")]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -6, 0, 3)
+visibility_range_begin = 0.0
+visibility_range_end = 60.0
+visibility_range_fade_mode = 1
 
 [node name="StreetLamp01" parent="GasStation" instance=ExtResource("8_slmp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8)
+visibility_range_begin = 0.0
+visibility_range_end = 60.0
+visibility_range_fade_mode = 1
 
 [node name="Motel" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0, -20)
@@ -683,6 +764,9 @@ collision_mask = 0
 
 [node name="Model" parent="Motel/MotelMain" instance=ExtResource("7_mot01")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+visibility_range_begin = 0.0
+visibility_range_end = 150.0
+visibility_range_fade_mode = 1
 
 [node name="Collision" type="CollisionShape3D" parent="Motel/MotelMain"]
 shape = SubResource("BoxShape3D_motel_main")
@@ -732,6 +816,9 @@ collision_layer = 1
 collision_mask = 0
 
 [node name="Model" parent="Motel/PickupTruck01" instance=ExtResource("8_ptk")]
+visibility_range_begin = 0.0
+visibility_range_end = 100.0
+visibility_range_fade_mode = 1
 
 [node name="Collision" type="CollisionShape3D" parent="Motel/PickupTruck01"]
 shape = SubResource("BoxShape3D_pickup_truck")
@@ -742,6 +829,9 @@ collision_layer = 1
 collision_mask = 0
 
 [node name="Model" parent="Motel/OldCar01" instance=ExtResource("8_ocar")]
+visibility_range_begin = 0.0
+visibility_range_end = 100.0
+visibility_range_fade_mode = 1
 
 [node name="Collision" type="CollisionShape3D" parent="Motel/OldCar01"]
 shape = SubResource("BoxShape3D_old_car")
@@ -752,15 +842,24 @@ collision_layer = 1
 collision_mask = 0
 
 [node name="Model" parent="Motel/Dumpster01" instance=ExtResource("8_dmp")]
+visibility_range_begin = 0.0
+visibility_range_end = 100.0
+visibility_range_fade_mode = 1
 
 [node name="Collision" type="CollisionShape3D" parent="Motel/Dumpster01"]
 shape = SubResource("BoxShape3D_dumpster")
 
 [node name="TrashCan01" parent="Motel" instance=ExtResource("8_trsh")]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -8, 0, -5)
+visibility_range_begin = 0.0
+visibility_range_end = 60.0
+visibility_range_fade_mode = 1
 
 [node name="OvergrownBushes01" parent="Motel" instance=ExtResource("8_bush")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 5)
+visibility_range_begin = 0.0
+visibility_range_end = 60.0
+visibility_range_fade_mode = 1
 
 [node name="Church" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35, 0, 15)
@@ -772,6 +871,9 @@ collision_mask = 0
 
 [node name="Model" parent="Church/ChurchBuilding" instance=ExtResource("7_chr01")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+visibility_range_begin = 0.0
+visibility_range_end = 150.0
+visibility_range_fade_mode = 1
 
 [node name="Collision" type="CollisionShape3D" parent="Church/ChurchBuilding"]
 shape = SubResource("BoxShape3D_church")
@@ -794,24 +896,42 @@ collision_mask = 0
 
 [node name="Model" parent="Church/School" instance=ExtResource("7_sch01")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+visibility_range_begin = 0.0
+visibility_range_end = 150.0
+visibility_range_fade_mode = 1
 
 [node name="Collision" type="CollisionShape3D" parent="Church/School"]
 shape = SubResource("BoxShape3D_school")
 
 [node name="ParkBench01" parent="Church" instance=ExtResource("8_bnch")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 8)
+visibility_range_begin = 0.0
+visibility_range_end = 60.0
+visibility_range_fade_mode = 1
 
 [node name="ParkBench02" parent="Church" instance=ExtResource("8_bnch")]
 transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 5, 0, 8)
+visibility_range_begin = 0.0
+visibility_range_end = 60.0
+visibility_range_fade_mode = 1
 
 [node name="DeadTree01" parent="Church" instance=ExtResource("8_dtree")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, -5)
+visibility_range_begin = 0.0
+visibility_range_end = 60.0
+visibility_range_fade_mode = 1
 
 [node name="OvergrownBushes01" parent="Church" instance=ExtResource("8_bush")]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 7, 0, -3)
+visibility_range_begin = 0.0
+visibility_range_end = 60.0
+visibility_range_fade_mode = 1
 
 [node name="RustyGate01" parent="Church" instance=ExtResource("8_gate")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
+visibility_range_begin = 0.0
+visibility_range_end = 100.0
+visibility_range_fade_mode = 1
 
 [node name="Playground" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 0, 35)
@@ -855,12 +975,21 @@ shape = SubResource("BoxShape3D_fence")
 
 [node name="DeadTree01" parent="Playground" instance=ExtResource("8_dtree")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 5)
+visibility_range_begin = 0.0
+visibility_range_end = 60.0
+visibility_range_fade_mode = 1
 
 [node name="OvergrownBushes01" parent="Playground" instance=ExtResource("8_bush")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -5)
+visibility_range_begin = 0.0
+visibility_range_end = 60.0
+visibility_range_fade_mode = 1
 
 [node name="OvergrownBushes02" parent="Playground" instance=ExtResource("8_bush")]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -8, 0, -7)
+visibility_range_begin = 0.0
+visibility_range_end = 60.0
+visibility_range_fade_mode = 1
 
 [node name="ChainLinkFence01" type="StaticBody3D" parent="Playground"]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 12, 0, 0)
@@ -868,6 +997,9 @@ collision_layer = 1
 collision_mask = 0
 
 [node name="Model" parent="Playground/ChainLinkFence01" instance=ExtResource("8_clnk")]
+visibility_range_begin = 0.0
+visibility_range_end = 100.0
+visibility_range_fade_mode = 1
 
 [node name="Collision" type="CollisionShape3D" parent="Playground/ChainLinkFence01"]
 shape = SubResource("BoxShape3D_chain_fence")
@@ -882,6 +1014,9 @@ collision_mask = 0
 
 [node name="Model" parent="IndustrialArea/Warehouse01" instance=ExtResource("7_wh01")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+visibility_range_begin = 0.0
+visibility_range_end = 150.0
+visibility_range_fade_mode = 1
 
 [node name="Collision" type="CollisionShape3D" parent="IndustrialArea/Warehouse01"]
 shape = SubResource("BoxShape3D_warehouse01")
@@ -893,6 +1028,9 @@ collision_mask = 0
 
 [node name="Model" parent="IndustrialArea/Warehouse02" instance=ExtResource("7_fac01")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+visibility_range_begin = 0.0
+visibility_range_end = 150.0
+visibility_range_fade_mode = 1
 
 [node name="Collision" type="CollisionShape3D" parent="IndustrialArea/Warehouse02"]
 shape = SubResource("BoxShape3D_warehouse02")
@@ -916,6 +1054,9 @@ omni_range = 15.0
 
 [node name="Generator01" parent="IndustrialArea" instance=ExtResource("8_genr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 0)
+visibility_range_begin = 0.0
+visibility_range_end = 100.0
+visibility_range_fade_mode = 1
 
 [node name="ChainLinkFence01" type="StaticBody3D" parent="IndustrialArea"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 8)
@@ -923,21 +1064,36 @@ collision_layer = 1
 collision_mask = 0
 
 [node name="Model" parent="IndustrialArea/ChainLinkFence01" instance=ExtResource("8_clnk")]
+visibility_range_begin = 0.0
+visibility_range_end = 100.0
+visibility_range_fade_mode = 1
 
 [node name="Collision" type="CollisionShape3D" parent="IndustrialArea/ChainLinkFence01"]
 shape = SubResource("BoxShape3D_chain_fence")
 
 [node name="TireStack01" parent="IndustrialArea" instance=ExtResource("8_tire")]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -8, 0, 12)
+visibility_range_begin = 0.0
+visibility_range_end = 60.0
+visibility_range_fade_mode = 1
 
 [node name="FilingCabinet01" parent="IndustrialArea" instance=ExtResource("8_fcab")]
 transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 5, 0, 5)
+visibility_range_begin = 0.0
+visibility_range_end = 40.0
+visibility_range_fade_mode = 1
 
 [node name="WoodenCrate01" parent="IndustrialArea" instance=ExtResource("8_wcrt")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 15)
+visibility_range_begin = 0.0
+visibility_range_end = 60.0
+visibility_range_fade_mode = 1
 
 [node name="WoodenCrate02" parent="IndustrialArea" instance=ExtResource("8_wcrt")]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -2, 0, 17)
+visibility_range_begin = 0.0
+visibility_range_end = 60.0
+visibility_range_fade_mode = 1
 
 [node name="Dumpster01" type="StaticBody3D" parent="IndustrialArea"]
 transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -8, 0, 5)
@@ -945,6 +1101,9 @@ collision_layer = 1
 collision_mask = 0
 
 [node name="Model" parent="IndustrialArea/Dumpster01" instance=ExtResource("8_dmp")]
+visibility_range_begin = 0.0
+visibility_range_end = 100.0
+visibility_range_fade_mode = 1
 
 [node name="Collision" type="CollisionShape3D" parent="IndustrialArea/Dumpster01"]
 shape = SubResource("BoxShape3D_dumpster")
@@ -959,6 +1118,9 @@ collision_mask = 0
 
 [node name="Model" parent="ResidentialArea/House01" instance=ExtResource("7_ah01")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+visibility_range_begin = 0.0
+visibility_range_end = 150.0
+visibility_range_fade_mode = 1
 
 [node name="Collision" type="CollisionShape3D" parent="ResidentialArea/House01"]
 shape = SubResource("BoxShape3D_house01")
@@ -970,6 +1132,9 @@ collision_mask = 0
 
 [node name="Model" parent="ResidentialArea/House02" instance=ExtResource("7_ah02")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+visibility_range_begin = 0.0
+visibility_range_end = 150.0
+visibility_range_fade_mode = 1
 
 [node name="Collision" type="CollisionShape3D" parent="ResidentialArea/House02"]
 shape = SubResource("BoxShape3D_house02")
@@ -981,6 +1146,9 @@ collision_mask = 0
 
 [node name="Model" parent="ResidentialArea/House03" instance=ExtResource("7_hc01")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+visibility_range_begin = 0.0
+visibility_range_end = 150.0
+visibility_range_fade_mode = 1
 
 [node name="Collision" type="CollisionShape3D" parent="ResidentialArea/House03"]
 shape = SubResource("BoxShape3D_house03")
@@ -992,6 +1160,9 @@ collision_mask = 0
 
 [node name="Model" parent="ResidentialArea/TrailerHome" instance=ExtResource("7_trl01")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+visibility_range_begin = 0.0
+visibility_range_end = 150.0
+visibility_range_fade_mode = 1
 
 [node name="Collision" type="CollisionShape3D" parent="ResidentialArea/TrailerHome"]
 shape = SubResource("BoxShape3D_trailer")
@@ -1004,36 +1175,69 @@ omni_range = 10.0
 
 [node name="Mailbox01" parent="ResidentialArea" instance=ExtResource("8_mbx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -4)
+visibility_range_begin = 0.0
+visibility_range_end = 60.0
+visibility_range_fade_mode = 1
 
 [node name="Mailbox02" parent="ResidentialArea" instance=ExtResource("8_mbx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, -4)
+visibility_range_begin = 0.0
+visibility_range_end = 60.0
+visibility_range_fade_mode = 1
 
 [node name="Mailbox03" parent="ResidentialArea" instance=ExtResource("8_mbx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 0, -4)
+visibility_range_begin = 0.0
+visibility_range_end = 60.0
+visibility_range_fade_mode = 1
 
 [node name="DeadTree01" parent="ResidentialArea" instance=ExtResource("8_dtree")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 5)
+visibility_range_begin = 0.0
+visibility_range_end = 60.0
+visibility_range_fade_mode = 1
 
 [node name="OvergrownBushes01" parent="ResidentialArea" instance=ExtResource("8_bush")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 3)
+visibility_range_begin = 0.0
+visibility_range_end = 60.0
+visibility_range_fade_mode = 1
 
 [node name="OvergrownBushes02" parent="ResidentialArea" instance=ExtResource("8_bush")]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 20, 0, 4)
+visibility_range_begin = 0.0
+visibility_range_end = 60.0
+visibility_range_fade_mode = 1
 
 [node name="OldTv01" parent="ResidentialArea" instance=ExtResource("8_otv")]
 transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 8, 0, -6)
+visibility_range_begin = 0.0
+visibility_range_end = 40.0
+visibility_range_fade_mode = 1
 
 [node name="TornCouch01" parent="ResidentialArea" instance=ExtResource("8_tcch")]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 10, 0, -7)
+visibility_range_begin = 0.0
+visibility_range_end = 40.0
+visibility_range_fade_mode = 1
 
 [node name="BrokenChair01" parent="ResidentialArea" instance=ExtResource("8_bchr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0, -6)
+visibility_range_begin = 0.0
+visibility_range_end = 40.0
+visibility_range_fade_mode = 1
 
 [node name="RustedRefrigerator01" parent="ResidentialArea" instance=ExtResource("8_rfr")]
 transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 22, 0, 3)
+visibility_range_begin = 0.0
+visibility_range_end = 40.0
+visibility_range_fade_mode = 1
 
 [node name="FallenBookshelf01" parent="ResidentialArea" instance=ExtResource("8_fbks")]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 5, 0, -8)
+visibility_range_begin = 0.0
+visibility_range_end = 40.0
+visibility_range_fade_mode = 1
 
 [node name="Highway" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -60)
@@ -1055,6 +1259,9 @@ collision_layer = 1
 collision_mask = 0
 
 [node name="Model" parent="Highway/RoadBarrier01" instance=ExtResource("8_rbar")]
+visibility_range_begin = 0.0
+visibility_range_end = 100.0
+visibility_range_fade_mode = 1
 
 [node name="Collision" type="CollisionShape3D" parent="Highway/RoadBarrier01"]
 shape = SubResource("BoxShape3D_road_barrier")
@@ -1065,6 +1272,9 @@ collision_layer = 1
 collision_mask = 0
 
 [node name="Model" parent="Highway/RoadBarrier02" instance=ExtResource("8_rbar")]
+visibility_range_begin = 0.0
+visibility_range_end = 100.0
+visibility_range_fade_mode = 1
 
 [node name="Collision" type="CollisionShape3D" parent="Highway/RoadBarrier02"]
 shape = SubResource("BoxShape3D_road_barrier")
@@ -1075,21 +1285,36 @@ collision_layer = 1
 collision_mask = 0
 
 [node name="Model" parent="Highway/RoadBarrier03" instance=ExtResource("8_rbar")]
+visibility_range_begin = 0.0
+visibility_range_end = 100.0
+visibility_range_fade_mode = 1
 
 [node name="Collision" type="CollisionShape3D" parent="Highway/RoadBarrier03"]
 shape = SubResource("BoxShape3D_road_barrier")
 
 [node name="TrafficCone01" parent="Highway" instance=ExtResource("8_cone")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -8)
+visibility_range_begin = 0.0
+visibility_range_end = 60.0
+visibility_range_fade_mode = 1
 
 [node name="TrafficCone02" parent="Highway" instance=ExtResource("8_cone")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -12)
+visibility_range_begin = 0.0
+visibility_range_end = 60.0
+visibility_range_fade_mode = 1
 
 [node name="TrafficCone03" parent="Highway" instance=ExtResource("8_cone")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 5)
+visibility_range_begin = 0.0
+visibility_range_end = 60.0
+visibility_range_fade_mode = 1
 
 [node name="TrafficCone04" parent="Highway" instance=ExtResource("8_cone")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 10)
+visibility_range_begin = 0.0
+visibility_range_end = 60.0
+visibility_range_fade_mode = 1
 
 [node name="PoliceCar01" type="StaticBody3D" parent="Highway"]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -6, 0, 0)
@@ -1097,12 +1322,18 @@ collision_layer = 1
 collision_mask = 0
 
 [node name="Model" parent="Highway/PoliceCar01" instance=ExtResource("8_pcar")]
+visibility_range_begin = 0.0
+visibility_range_end = 100.0
+visibility_range_fade_mode = 1
 
 [node name="Collision" type="CollisionShape3D" parent="Highway/PoliceCar01"]
 shape = SubResource("BoxShape3D_police_car")
 
 [node name="OverturnedTable01" parent="Highway" instance=ExtResource("8_otbl")]
 transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 7, 0, -5)
+visibility_range_begin = 0.0
+visibility_range_end = 60.0
+visibility_range_fade_mode = 1
 
 [node name="RadioTower" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 50)
@@ -1114,6 +1345,9 @@ collision_mask = 0
 
 [node name="Model" parent="RadioTower/TowerBase" instance=ExtResource("7_rad01")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+visibility_range_begin = 0.0
+visibility_range_end = 150.0
+visibility_range_fade_mode = 1
 
 [node name="Collision" type="CollisionShape3D" parent="RadioTower/TowerBase"]
 shape = SubResource("BoxShape3D_tower_base")
@@ -1141,15 +1375,24 @@ collision_layer = 1
 collision_mask = 0
 
 [node name="Model" parent="RadioTower/ChainLinkFence01" instance=ExtResource("8_clnk")]
+visibility_range_begin = 0.0
+visibility_range_end = 100.0
+visibility_range_fade_mode = 1
 
 [node name="Collision" type="CollisionShape3D" parent="RadioTower/ChainLinkFence01"]
 shape = SubResource("BoxShape3D_chain_fence")
 
 [node name="Generator01" parent="RadioTower" instance=ExtResource("8_genr")]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 4, 0, 3)
+visibility_range_begin = 0.0
+visibility_range_end = 100.0
+visibility_range_fade_mode = 1
 
 [node name="WoodenCrate01" parent="RadioTower" instance=ExtResource("8_wcrt")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 4)
+visibility_range_begin = 0.0
+visibility_range_end = 60.0
+visibility_range_fade_mode = 1
 
 [node name="ForestEdge" type="Node3D" parent="."]
 
@@ -1160,6 +1403,9 @@ collision_mask = 0
 
 [node name="Model" parent="ForestEdge/RangerStation" instance=ExtResource("7_rgr01")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+visibility_range_begin = 0.0
+visibility_range_end = 150.0
+visibility_range_fade_mode = 1
 
 [node name="Collision" type="CollisionShape3D" parent="ForestEdge/RangerStation"]
 shape = SubResource("BoxShape3D_ranger")
