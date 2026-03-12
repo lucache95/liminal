@@ -1,4 +1,4 @@
-[gd_scene load_steps=114 format=3]
+[gd_scene load_steps=119 format=3]
 
 [ext_resource type="Script" path="res://levels/town/town.gd" id="1_twn01"]
 [ext_resource type="Material" path="res://materials/grass.tres" id="2_grs01"]
@@ -342,6 +342,21 @@ size = Vector3(10, 2, 0.2)
 [sub_resource type="BoxShape3D" id="BoxShape3D_road_barrier"]
 size = Vector3(2, 1, 0.5)
 
+[sub_resource type="BoxOccluder3D" id="BoxOccluder3D_church"]
+size = Vector3(9, 7, 14)
+
+[sub_resource type="BoxOccluder3D" id="BoxOccluder3D_school"]
+size = Vector3(14, 4.5, 9)
+
+[sub_resource type="BoxOccluder3D" id="BoxOccluder3D_warehouse"]
+size = Vector3(14, 5.5, 11)
+
+[sub_resource type="BoxOccluder3D" id="BoxOccluder3D_motel"]
+size = Vector3(19, 3.5, 5)
+
+[sub_resource type="BoxOccluder3D" id="BoxOccluder3D_gasstation"]
+size = Vector3(11, 3.5, 7)
+
 [node name="Town" type="Node3D"]
 script = ExtResource("1_twn01")
 
@@ -650,6 +665,10 @@ visibility_range_fade_mode = 1
 [node name="Collision" type="CollisionShape3D" parent="GasStation/MainBuilding"]
 shape = SubResource("BoxShape3D_gasstation")
 
+[node name="Occluder" type="OccluderInstance3D" parent="GasStation/MainBuilding"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+occluder = SubResource("BoxOccluder3D_gasstation")
+
 [node name="Canopy" type="StaticBody3D" parent="GasStation"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, 10)
 collision_layer = 1
@@ -771,6 +790,10 @@ visibility_range_fade_mode = 1
 [node name="Collision" type="CollisionShape3D" parent="Motel/MotelMain"]
 shape = SubResource("BoxShape3D_motel_main")
 
+[node name="Occluder" type="OccluderInstance3D" parent="Motel/MotelMain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+occluder = SubResource("BoxOccluder3D_motel")
+
 [node name="MotelWing" type="StaticBody3D" parent="Motel"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 2, 9)
 collision_layer = 1
@@ -878,6 +901,10 @@ visibility_range_fade_mode = 1
 [node name="Collision" type="CollisionShape3D" parent="Church/ChurchBuilding"]
 shape = SubResource("BoxShape3D_church")
 
+[node name="Occluder" type="OccluderInstance3D" parent="Church/ChurchBuilding"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+occluder = SubResource("BoxOccluder3D_church")
+
 [node name="Steeple" type="StaticBody3D" parent="Church"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.5, -4)
 collision_layer = 1
@@ -902,6 +929,10 @@ visibility_range_fade_mode = 1
 
 [node name="Collision" type="CollisionShape3D" parent="Church/School"]
 shape = SubResource("BoxShape3D_school")
+
+[node name="Occluder" type="OccluderInstance3D" parent="Church/School"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+occluder = SubResource("BoxOccluder3D_school")
 
 [node name="ParkBench01" parent="Church" instance=ExtResource("8_bnch")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 8)
@@ -1020,6 +1051,10 @@ visibility_range_fade_mode = 1
 
 [node name="Collision" type="CollisionShape3D" parent="IndustrialArea/Warehouse01"]
 shape = SubResource("BoxShape3D_warehouse01")
+
+[node name="Occluder" type="OccluderInstance3D" parent="IndustrialArea/Warehouse01"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+occluder = SubResource("BoxOccluder3D_warehouse")
 
 [node name="Warehouse02" type="StaticBody3D" parent="IndustrialArea"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 15)
