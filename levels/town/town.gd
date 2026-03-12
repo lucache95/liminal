@@ -92,9 +92,14 @@ func _spawn_monster() -> void:
 		scene_path = MONSTER_SCENES[MonsterType.STALKER]
 
 	var monster_scene: PackedScene = load(scene_path)
-	var monster: CharacterBody3D = monster_scene.instantiate()
+	var monster: Node3D = monster_scene.instantiate() as Node3D
 
-	# Pick a random monster spawn point
+	# Ambusher is a static trap system -- no spawn point needed, handles own setup
+	if selected_type == MonsterType.AMBUSHER:
+		add_child(monster)
+		return
+
+	# Pick a random monster spawn point (Stalker/Lurker)
 	var spawns: Array[Marker3D] = []
 	for child: Node in $MonsterSpawns.get_children():
 		if child is Marker3D:

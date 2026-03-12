@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="LurkerConfig" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://resources/enemy_configs/lurker_config.gd" id="1_lc001"]
+
+[resource]
+script = ExtResource("1_lc001")
+roam_speed = 2.0
+roam_wait_min = 5.0
+roam_wait_max = 12.0
+roam_range = 80.0
+danger_zone_radius = 15.0
+attack_delay = 12.0
+disturbance_radius = 20.0
+sanity_drain_multiplier = 3.0

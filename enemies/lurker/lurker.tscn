@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://dlurker001"]
+
+[ext_resource type="Script" path="res://enemies/lurker/lurker.gd" id="1_lurk01"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_dz001"]
+radius = 15.0
+
+[node name="Lurker" type="Node3D"]
+script = ExtResource("1_lurk01")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+path_desired_distance = 1.0
+target_desired_distance = 2.0
+avoidance_enabled = false
+
+[node name="DangerZone" type="Area3D" parent="."]
+collision_layer = 16
+collision_mask = 2
+monitoring = true
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DangerZone"]
+shape = SubResource("SphereShape3D_dz001")
