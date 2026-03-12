@@ -14,8 +14,7 @@ var _current_ambient_zone: StringName = &"default"
 
 
 func _ready() -> void:
-	# Buildings are now static scene instances in town.tscn (not runtime-loaded)
-	ModelReplacer.spawn_props(self)
+	# All buildings and props are static scene instances in town.tscn
 	_spawn_player()
 	_spawn_monster()
 	_setup_objectives()
