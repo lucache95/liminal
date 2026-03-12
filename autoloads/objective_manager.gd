@@ -7,6 +7,7 @@ extends Node
 # ---------------------------------------------------------------------------
 
 const OBJECTIVE_DIR: String = "res://resources/objectives/"
+const OBJECTIVE_SEED_HASH: int = 0x4F424A54  # "OBJT" — decorrelates from weather/monster seeds
 
 # ---------------------------------------------------------------------------
 # State
@@ -16,6 +17,7 @@ var active_template: ObjectiveTemplate = null
 var completed_ids: Array[String] = []
 var required_count: int = 0
 var objective_pool: Array[ObjectiveTemplate] = []
+var _run_rng: RandomNumberGenerator = null
 
 # ---------------------------------------------------------------------------
 # Lifecycle
@@ -62,13 +64,31 @@ func setup_run(run_seed: int) -> void:
 		push_error("ObjectiveManager: No objective templates found in pool.")
 		return
 
-	# Use the run seed for deterministic selection
+	# Use XOR-hashed seed for deterministic, decorrelated selection
 	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
-	rng.seed = run_seed
+	rng.seed = run_seed ^ OBJECTIVE_SEED_HASH
 
-	var index: int = rng.randi_range(0, objective_pool.size() - 1)
-	active_template = objective_pool[index]
+	# Weighted selection using difficulty_weight
+	var total_weight: float = 0.0
+	for template: ObjectiveTemplate in objective_pool:
+		total_weight += template.difficulty_weight
+
+	var roll: float = rng.randf_range(0.0, total_weight)
+	var cumulative: float = 0.0
+	for template: ObjectiveTemplate in objective_pool:
+		cumulative += template.difficulty_weight
+		if roll <= cumulative:
+			active_template = template
+			break
+
+	# Fallback in case of float precision edge case
+	if active_template == null:
+		active_template = objective_pool[objective_pool.size() - 1]
+
 	required_count = active_template.required_count
+
+	# Store RNG for deterministic spawn ordering
+	_run_rng = rng
 
 
 func spawn_objectives(spawn_points: Array[Marker3D]) -> void:
@@ -85,9 +105,17 @@ func spawn_objectives(spawn_points: Array[Marker3D]) -> void:
 				% [spawn_points.size(), required_count])
 		return
 
-	# Shuffle spawn points deterministically (array was passed in; we shuffle a copy)
+	# Shuffle spawn points deterministically using Fisher-Yates with stored RNG
 	var shuffled: Array[Marker3D] = spawn_points.duplicate()
-	shuffled.shuffle()
+	if _run_rng != null:
+		for i: int in range(shuffled.size() - 1, 0, -1):
+			var j: int = _run_rng.randi_range(0, i)
+			var temp: Marker3D = shuffled[i]
+			shuffled[i] = shuffled[j]
+			shuffled[j] = temp
+	else:
+		push_warning("ObjectiveManager: _run_rng is null — falling back to non-deterministic shuffle.")
+		shuffled.shuffle()
 
 	for i: int in range(required_count):
 		var point: Marker3D = shuffled[i]
@@ -143,6 +171,7 @@ func reset() -> void:
 	active_template = null
 	completed_ids.clear()
 	required_count = 0
+	_run_rng = null
 
 
 # ---------------------------------------------------------------------------
