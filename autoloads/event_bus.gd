@@ -22,6 +22,8 @@ signal battery_changed(percent: float)
 # Game flow signals
 signal game_started(seed: int)
 signal game_ended(reason: String) # "escape" or "caught" or "time"
+signal death_sequence_started
+signal death_sequence_finished
 
 # Atmosphere signals
 signal tension_changed(value: float) # 0.0 – 1.0

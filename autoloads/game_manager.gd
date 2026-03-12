@@ -112,7 +112,9 @@ func _on_all_objectives_completed() -> void:
 
 
 func _on_player_died() -> void:
-	end_run("caught")
+	# Death sequence controller intercepts player_died and calls end_run("caught")
+	# after the ~3.5s death sequence finishes. Do NOT call end_run() here.
+	pass
 
 # ---------------------------------------------------------------------------
 # Ambient audio

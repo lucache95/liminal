@@ -24,12 +24,14 @@ var _current_tension: float = 0.0
 var _distortion_tween: Tween
 var _hallucination_timer: Timer = null
 var _hallucination_cooldown: float = 0.0
+var _death_sequence_active: bool = false
 
 # --------------------------------------------------------------------------- #
 # Lifecycle
 # --------------------------------------------------------------------------- #
 
 func _ready() -> void:
+	add_to_group(&"post_process")
 	EventBus.connect("tension_changed", _on_tension_changed)
 	EventBus.connect("geometry_shifted", _on_geometry_shifted)
 	EventBus.sanity_changed.connect(_on_sanity_changed)
@@ -49,6 +51,8 @@ func _ready() -> void:
 # --------------------------------------------------------------------------- #
 
 func set_tension(value: float) -> void:
+	if _death_sequence_active:
+		return
 	value = clampf(value, 0.0, 1.0)
 	_current_tension = value
 
@@ -85,6 +89,8 @@ func set_tension(value: float) -> void:
 # --------------------------------------------------------------------------- #
 
 func set_sanity(value: float) -> void:
+	if _death_sequence_active:
+		return
 	_current_sanity = clampf(value, 0.0, 1.0)
 	var dread: float = 1.0 - _current_sanity  # 0 = sane, 1 = insane
 
@@ -159,6 +165,39 @@ func _apply_combined_effects() -> void:
 		if dread_val > 0.7:
 			sanity_distortion_baseline = lerpf(0.0, 0.02, (dread_val - 0.7) / 0.3)
 		distortion_mat.set_shader_parameter(&"strength", minf((base_distortion * sanity_amp) + sanity_distortion_baseline, 0.08))
+
+# --------------------------------------------------------------------------- #
+# Death sequence
+# --------------------------------------------------------------------------- #
+
+## Sets all shader parameters to extreme death values. Called by DeathSequenceController.
+## [param intensity] ranges from 0.0 to 1.0, where 1.0 is full death distortion.
+func set_death_intensity(intensity: float) -> void:
+	_death_sequence_active = true
+	# Vignette: ramp from current to near-blackout
+	var vignette_mat: ShaderMaterial = vignette_rect.material as ShaderMaterial
+	if vignette_mat:
+		vignette_mat.set_shader_parameter(&"intensity", lerpf(0.5, 1.5, intensity))
+	# Chromatic aberration: extreme
+	var aberration_mat: ShaderMaterial = aberration_rect.material as ShaderMaterial
+	if aberration_mat:
+		aberration_mat.set_shader_parameter(&"strength", lerpf(0.01, 0.15, intensity))
+	# Film grain: maximum (uses grain_amount parameter)
+	var grain_mat: ShaderMaterial = grain_rect.material as ShaderMaterial
+	if grain_mat:
+		grain_mat.set_shader_parameter(&"grain_amount", lerpf(0.1, 0.5, intensity))
+	# Distortion: extreme warp
+	var distortion_mat: ShaderMaterial = distortion_rect.material as ShaderMaterial
+	if distortion_mat:
+		distortion_mat.set_shader_parameter(&"strength", lerpf(0.02, 0.15, intensity))
+	# Desaturation: full grayscale at peak
+	var desat_mat: ShaderMaterial = desaturation_rect.material as ShaderMaterial
+	if desat_mat:
+		desat_mat.set_shader_parameter(&"saturation", lerpf(0.5, 0.0, intensity))
+	# Breathing: extreme pulsing
+	var breath_mat: ShaderMaterial = breathing_rect.material as ShaderMaterial
+	if breath_mat:
+		breath_mat.set_shader_parameter(&"strength", lerpf(0.01, 0.04, intensity))
 
 # --------------------------------------------------------------------------- #
 # Hallucination flash

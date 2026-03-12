@@ -27,6 +27,7 @@ AudioManager="*res://autoloads/audio_manager.gd"
 SceneManager="*res://autoloads/scene_manager.gd"
 ObjectiveManager="*res://autoloads/objective_manager.gd"
 SanityManager="*res://autoloads/sanity_manager.gd"
+DeathSequenceController="*res://systems/death_sequence_controller.gd"
 
 [display]
 
