@@ -26,6 +26,9 @@ signal game_ended(reason: String) # "escape" or "caught" or "time"
 signal tension_changed(value: float) # 0.0 – 1.0
 signal weather_set(weather_type: String)
 signal geometry_shifted(node_path: NodePath)
+signal sanity_changed(value: float) # 0.0 (insane) to 1.0 (sane)
+signal day_night_progress(t: float) # 0.0 (dusk) to 1.0 (full night)
+signal light_degraded(light_path: NodePath) # A street lamp died
 
 # UI signals
 signal interaction_prompt_show(text: String)
