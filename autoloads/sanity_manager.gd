@@ -1,4 +1,4 @@
-class_name SanityManager extends Node
+extends Node
 ## Tracks hidden sanity state driven by light levels, monster proximity,
 ## and player actions. Emits sanity_changed to drive visual and audio effects.
 

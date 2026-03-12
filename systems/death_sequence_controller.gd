@@ -1,4 +1,3 @@
-class_name DeathSequenceController
 extends Node
 
 ## Orchestrates the ~3.5s death sequence when the monster catches the player.
