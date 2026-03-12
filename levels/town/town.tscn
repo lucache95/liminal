@@ -1,4 +1,4 @@
-[gd_scene load_steps=87 format=3]
+[gd_scene load_steps=114 format=3]
 
 [ext_resource type="Script" path="res://levels/town/town.gd" id="1_twn01"]
 [ext_resource type="Material" path="res://materials/grass.tres" id="2_grs01"]
@@ -23,6 +23,33 @@
 [ext_resource type="PackedScene" path="res://assets/models/environment/ranger_station.glb" id="7_rgr01"]
 [ext_resource type="PackedScene" path="res://assets/models/environment/pharmacy.glb" id="7_phm01"]
 [ext_resource type="PackedScene" path="res://assets/models/environment/trailer_home.glb" id="7_trl01"]
+[ext_resource type="PackedScene" path="res://assets/models/props/street_lamp.glb" id="8_slmp"]
+[ext_resource type="PackedScene" path="res://assets/models/props/park_bench.glb" id="8_bnch"]
+[ext_resource type="PackedScene" path="res://assets/models/props/mailbox.glb" id="8_mbx"]
+[ext_resource type="PackedScene" path="res://assets/models/props/fire_hydrant.glb" id="8_fhyd"]
+[ext_resource type="PackedScene" path="res://assets/models/props/phone_booth.glb" id="8_phon"]
+[ext_resource type="PackedScene" path="res://assets/models/props/trash_can.glb" id="8_trsh"]
+[ext_resource type="PackedScene" path="res://assets/models/props/rusty_gate.glb" id="8_gate"]
+[ext_resource type="PackedScene" path="res://assets/models/props/chain_link_fence.glb" id="8_clnk"]
+[ext_resource type="PackedScene" path="res://assets/models/props/road_barrier.glb" id="8_rbar"]
+[ext_resource type="PackedScene" path="res://assets/models/props/traffic_cone.glb" id="8_cone"]
+[ext_resource type="PackedScene" path="res://assets/models/props/old_car.glb" id="8_ocar"]
+[ext_resource type="PackedScene" path="res://assets/models/props/pickup_truck.glb" id="8_ptk"]
+[ext_resource type="PackedScene" path="res://assets/models/props/police_car.glb" id="8_pcar"]
+[ext_resource type="PackedScene" path="res://assets/models/props/wooden_barrel.glb" id="8_wbrl"]
+[ext_resource type="PackedScene" path="res://assets/models/props/dumpster.glb" id="8_dmp"]
+[ext_resource type="PackedScene" path="res://assets/models/props/wooden_crate.glb" id="8_wcrt"]
+[ext_resource type="PackedScene" path="res://assets/models/props/generator.glb" id="8_genr"]
+[ext_resource type="PackedScene" path="res://assets/models/props/tire_stack.glb" id="8_tire"]
+[ext_resource type="PackedScene" path="res://assets/models/props/dead_tree.glb" id="8_dtree"]
+[ext_resource type="PackedScene" path="res://assets/models/props/overgrown_bushes.glb" id="8_bush"]
+[ext_resource type="PackedScene" path="res://assets/models/props/overturned_table.glb" id="8_otbl"]
+[ext_resource type="PackedScene" path="res://assets/models/props/broken_chair.glb" id="8_bchr"]
+[ext_resource type="PackedScene" path="res://assets/models/props/old_tv.glb" id="8_otv"]
+[ext_resource type="PackedScene" path="res://assets/models/props/torn_couch.glb" id="8_tcch"]
+[ext_resource type="PackedScene" path="res://assets/models/props/rusted_refrigerator.glb" id="8_rfr"]
+[ext_resource type="PackedScene" path="res://assets/models/props/fallen_bookshelf.glb" id="8_fbks"]
+[ext_resource type="PackedScene" path="res://assets/models/props/filing_cabinet.glb" id="8_fcab"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sky01"]
 sky_top_color = Color(0.01, 0.01, 0.02, 1)
@@ -287,6 +314,24 @@ size = Vector3(10, 3, 4)
 [sub_resource type="BoxShape3D" id="BoxShape3D_ranger"]
 size = Vector3(6, 3, 5)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_old_car"]
+size = Vector3(4, 1.5, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_pickup_truck"]
+size = Vector3(5, 1.8, 2.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_police_car"]
+size = Vector3(4.5, 1.5, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dumpster"]
+size = Vector3(2, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_chain_fence"]
+size = Vector3(10, 2, 0.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_road_barrier"]
+size = Vector3(2, 1, 0.5)
+
 [node name="Town" type="Node3D"]
 script = ExtResource("1_twn01")
 
@@ -390,6 +435,21 @@ light_energy = 0.35
 shadow_enabled = true
 omni_range = 12.0
 
+[node name="StreetLamp01" parent="TownSquare" instance=ExtResource("8_slmp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 8)
+
+[node name="StreetLamp02" parent="TownSquare" instance=ExtResource("8_slmp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, -8)
+
+[node name="TrashCan01" parent="TownSquare" instance=ExtResource("8_trsh")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 6, 0, 3)
+
+[node name="DeadTree01" parent="TownSquare" instance=ExtResource("8_dtree")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 7)
+
+[node name="PhoneBooth01" parent="TownSquare" instance=ExtResource("8_phon")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -9, 0, -3)
+
 [node name="MainStreet" type="Node3D" parent="."]
 
 [node name="Shop01" type="StaticBody3D" parent="MainStreet"]
@@ -466,6 +526,43 @@ light_color = Color(1, 0.9, 0.7, 1)
 light_energy = 0.25
 omni_range = 10.0
 
+[node name="StreetLamp01" parent="MainStreet" instance=ExtResource("8_slmp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 12)
+
+[node name="StreetLamp02" parent="MainStreet" instance=ExtResource("8_slmp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 22)
+
+[node name="StreetLamp03" parent="MainStreet" instance=ExtResource("8_slmp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 32)
+
+[node name="Dumpster01" type="StaticBody3D" parent="MainStreet"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 15, 0, 18)
+collision_layer = 1
+collision_mask = 0
+
+[node name="Model" parent="MainStreet/Dumpster01" instance=ExtResource("8_dmp")]
+
+[node name="Collision" type="CollisionShape3D" parent="MainStreet/Dumpster01"]
+shape = SubResource("BoxShape3D_dumpster")
+
+[node name="Mailbox01" parent="MainStreet" instance=ExtResource("8_mbx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 17)
+
+[node name="Mailbox02" parent="MainStreet" instance=ExtResource("8_mbx")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -6, 0, 28)
+
+[node name="FireHydrant01" parent="MainStreet" instance=ExtResource("8_fhyd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 14)
+
+[node name="FireHydrant02" parent="MainStreet" instance=ExtResource("8_fhyd")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -4, 0, 26)
+
+[node name="TrafficCone01" parent="MainStreet" instance=ExtResource("8_cone")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 20)
+
+[node name="TrafficCone02" parent="MainStreet" instance=ExtResource("8_cone")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 24)
+
 [node name="GasStation" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 0, -25)
 
@@ -534,6 +631,38 @@ light_energy = 0.5
 shadow_enabled = true
 omni_range = 15.0
 
+[node name="OldCar01" type="StaticBody3D" parent="GasStation"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 8, 0, 5)
+collision_layer = 1
+collision_mask = 0
+
+[node name="Model" parent="GasStation/OldCar01" instance=ExtResource("8_ocar")]
+
+[node name="Collision" type="CollisionShape3D" parent="GasStation/OldCar01"]
+shape = SubResource("BoxShape3D_old_car")
+
+[node name="TireStack01" parent="GasStation" instance=ExtResource("8_tire")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, -3)
+
+[node name="RoadBarrier01" type="StaticBody3D" parent="GasStation"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -5)
+collision_layer = 1
+collision_mask = 0
+
+[node name="Model" parent="GasStation/RoadBarrier01" instance=ExtResource("8_rbar")]
+
+[node name="Collision" type="CollisionShape3D" parent="GasStation/RoadBarrier01"]
+shape = SubResource("BoxShape3D_road_barrier")
+
+[node name="WoodenBarrel01" parent="GasStation" instance=ExtResource("8_wbrl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, 4)
+
+[node name="WoodenBarrel02" parent="GasStation" instance=ExtResource("8_wbrl")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -6, 0, 3)
+
+[node name="StreetLamp01" parent="GasStation" instance=ExtResource("8_slmp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8)
+
 [node name="Motel" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0, -20)
 
@@ -587,6 +716,42 @@ mesh = SubResource("BoxMesh_parking")
 [node name="Collision" type="CollisionShape3D" parent="Motel/ParkingLot"]
 shape = SubResource("BoxShape3D_parking")
 
+[node name="PickupTruck01" type="StaticBody3D" parent="Motel"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -5, 0, -8)
+collision_layer = 1
+collision_mask = 0
+
+[node name="Model" parent="Motel/PickupTruck01" instance=ExtResource("8_ptk")]
+
+[node name="Collision" type="CollisionShape3D" parent="Motel/PickupTruck01"]
+shape = SubResource("BoxShape3D_pickup_truck")
+
+[node name="OldCar01" type="StaticBody3D" parent="Motel"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 5, 0, -10)
+collision_layer = 1
+collision_mask = 0
+
+[node name="Model" parent="Motel/OldCar01" instance=ExtResource("8_ocar")]
+
+[node name="Collision" type="CollisionShape3D" parent="Motel/OldCar01"]
+shape = SubResource("BoxShape3D_old_car")
+
+[node name="Dumpster01" type="StaticBody3D" parent="Motel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 3)
+collision_layer = 1
+collision_mask = 0
+
+[node name="Model" parent="Motel/Dumpster01" instance=ExtResource("8_dmp")]
+
+[node name="Collision" type="CollisionShape3D" parent="Motel/Dumpster01"]
+shape = SubResource("BoxShape3D_dumpster")
+
+[node name="TrashCan01" parent="Motel" instance=ExtResource("8_trsh")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -8, 0, -5)
+
+[node name="OvergrownBushes01" parent="Motel" instance=ExtResource("8_bush")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 5)
+
 [node name="Church" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35, 0, 15)
 
@@ -622,6 +787,21 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="Collision" type="CollisionShape3D" parent="Church/School"]
 shape = SubResource("BoxShape3D_school")
+
+[node name="ParkBench01" parent="Church" instance=ExtResource("8_bnch")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 8)
+
+[node name="ParkBench02" parent="Church" instance=ExtResource("8_bnch")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 5, 0, 8)
+
+[node name="DeadTree01" parent="Church" instance=ExtResource("8_dtree")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, -5)
+
+[node name="OvergrownBushes01" parent="Church" instance=ExtResource("8_bush")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 7, 0, -3)
+
+[node name="RustyGate01" parent="Church" instance=ExtResource("8_gate")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
 
 [node name="Playground" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 0, 35)
@@ -662,6 +842,25 @@ mesh = SubResource("BoxMesh_fence")
 
 [node name="Collision" type="CollisionShape3D" parent="Playground/Fence"]
 shape = SubResource("BoxShape3D_fence")
+
+[node name="DeadTree01" parent="Playground" instance=ExtResource("8_dtree")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 5)
+
+[node name="OvergrownBushes01" parent="Playground" instance=ExtResource("8_bush")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -5)
+
+[node name="OvergrownBushes02" parent="Playground" instance=ExtResource("8_bush")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -8, 0, -7)
+
+[node name="ChainLinkFence01" type="StaticBody3D" parent="Playground"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 12, 0, 0)
+collision_layer = 1
+collision_mask = 0
+
+[node name="Model" parent="Playground/ChainLinkFence01" instance=ExtResource("8_clnk")]
+
+[node name="Collision" type="CollisionShape3D" parent="Playground/ChainLinkFence01"]
+shape = SubResource("BoxShape3D_chain_fence")
 
 [node name="IndustrialArea" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 0, 10)
@@ -704,6 +903,41 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 7)
 light_color = Color(1, 0.85, 0.6, 1)
 light_energy = 0.3
 omni_range = 15.0
+
+[node name="Generator01" parent="IndustrialArea" instance=ExtResource("8_genr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 0)
+
+[node name="ChainLinkFence01" type="StaticBody3D" parent="IndustrialArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 8)
+collision_layer = 1
+collision_mask = 0
+
+[node name="Model" parent="IndustrialArea/ChainLinkFence01" instance=ExtResource("8_clnk")]
+
+[node name="Collision" type="CollisionShape3D" parent="IndustrialArea/ChainLinkFence01"]
+shape = SubResource("BoxShape3D_chain_fence")
+
+[node name="TireStack01" parent="IndustrialArea" instance=ExtResource("8_tire")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -8, 0, 12)
+
+[node name="FilingCabinet01" parent="IndustrialArea" instance=ExtResource("8_fcab")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 5, 0, 5)
+
+[node name="WoodenCrate01" parent="IndustrialArea" instance=ExtResource("8_wcrt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 15)
+
+[node name="WoodenCrate02" parent="IndustrialArea" instance=ExtResource("8_wcrt")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -2, 0, 17)
+
+[node name="Dumpster01" type="StaticBody3D" parent="IndustrialArea"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -8, 0, 5)
+collision_layer = 1
+collision_mask = 0
+
+[node name="Model" parent="IndustrialArea/Dumpster01" instance=ExtResource("8_dmp")]
+
+[node name="Collision" type="CollisionShape3D" parent="IndustrialArea/Dumpster01"]
+shape = SubResource("BoxShape3D_dumpster")
 
 [node name="ResidentialArea" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, -40)
@@ -758,6 +992,39 @@ light_color = Color(1, 0.9, 0.7, 1)
 light_energy = 0.25
 omni_range = 10.0
 
+[node name="Mailbox01" parent="ResidentialArea" instance=ExtResource("8_mbx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -4)
+
+[node name="Mailbox02" parent="ResidentialArea" instance=ExtResource("8_mbx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, -4)
+
+[node name="Mailbox03" parent="ResidentialArea" instance=ExtResource("8_mbx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 0, -4)
+
+[node name="DeadTree01" parent="ResidentialArea" instance=ExtResource("8_dtree")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 5)
+
+[node name="OvergrownBushes01" parent="ResidentialArea" instance=ExtResource("8_bush")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 3)
+
+[node name="OvergrownBushes02" parent="ResidentialArea" instance=ExtResource("8_bush")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 20, 0, 4)
+
+[node name="OldTv01" parent="ResidentialArea" instance=ExtResource("8_otv")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 8, 0, -6)
+
+[node name="TornCouch01" parent="ResidentialArea" instance=ExtResource("8_tcch")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 10, 0, -7)
+
+[node name="BrokenChair01" parent="ResidentialArea" instance=ExtResource("8_bchr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0, -6)
+
+[node name="RustedRefrigerator01" parent="ResidentialArea" instance=ExtResource("8_rfr")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 22, 0, 3)
+
+[node name="FallenBookshelf01" parent="ResidentialArea" instance=ExtResource("8_fbks")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 5, 0, -8)
+
 [node name="Highway" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -60)
 
@@ -771,6 +1038,61 @@ mesh = SubResource("BoxMesh_road")
 
 [node name="Collision" type="CollisionShape3D" parent="Highway/Road"]
 shape = SubResource("BoxShape3D_road")
+
+[node name="RoadBarrier01" type="StaticBody3D" parent="Highway"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -10)
+collision_layer = 1
+collision_mask = 0
+
+[node name="Model" parent="Highway/RoadBarrier01" instance=ExtResource("8_rbar")]
+
+[node name="Collision" type="CollisionShape3D" parent="Highway/RoadBarrier01"]
+shape = SubResource("BoxShape3D_road_barrier")
+
+[node name="RoadBarrier02" type="StaticBody3D" parent="Highway"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -10)
+collision_layer = 1
+collision_mask = 0
+
+[node name="Model" parent="Highway/RoadBarrier02" instance=ExtResource("8_rbar")]
+
+[node name="Collision" type="CollisionShape3D" parent="Highway/RoadBarrier02"]
+shape = SubResource("BoxShape3D_road_barrier")
+
+[node name="RoadBarrier03" type="StaticBody3D" parent="Highway"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0, 0, 15)
+collision_layer = 1
+collision_mask = 0
+
+[node name="Model" parent="Highway/RoadBarrier03" instance=ExtResource("8_rbar")]
+
+[node name="Collision" type="CollisionShape3D" parent="Highway/RoadBarrier03"]
+shape = SubResource("BoxShape3D_road_barrier")
+
+[node name="TrafficCone01" parent="Highway" instance=ExtResource("8_cone")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -8)
+
+[node name="TrafficCone02" parent="Highway" instance=ExtResource("8_cone")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -12)
+
+[node name="TrafficCone03" parent="Highway" instance=ExtResource("8_cone")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 5)
+
+[node name="TrafficCone04" parent="Highway" instance=ExtResource("8_cone")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 10)
+
+[node name="PoliceCar01" type="StaticBody3D" parent="Highway"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -6, 0, 0)
+collision_layer = 1
+collision_mask = 0
+
+[node name="Model" parent="Highway/PoliceCar01" instance=ExtResource("8_pcar")]
+
+[node name="Collision" type="CollisionShape3D" parent="Highway/PoliceCar01"]
+shape = SubResource("BoxShape3D_police_car")
+
+[node name="OverturnedTable01" parent="Highway" instance=ExtResource("8_otbl")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 7, 0, -5)
 
 [node name="RadioTower" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 50)
@@ -802,6 +1124,22 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 17, 0)
 light_color = Color(1, 0.1, 0.1, 1)
 light_energy = 0.5
 omni_range = 20.0
+
+[node name="ChainLinkFence01" type="StaticBody3D" parent="RadioTower"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5)
+collision_layer = 1
+collision_mask = 0
+
+[node name="Model" parent="RadioTower/ChainLinkFence01" instance=ExtResource("8_clnk")]
+
+[node name="Collision" type="CollisionShape3D" parent="RadioTower/ChainLinkFence01"]
+shape = SubResource("BoxShape3D_chain_fence")
+
+[node name="Generator01" parent="RadioTower" instance=ExtResource("8_genr")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 4, 0, 3)
+
+[node name="WoodenCrate01" parent="RadioTower" instance=ExtResource("8_wcrt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 4)
 
 [node name="ForestEdge" type="Node3D" parent="."]
 
