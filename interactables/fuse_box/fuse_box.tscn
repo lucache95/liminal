@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://interactables/fuse_box/fuse_box.gd" id="1_fuse"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_fuse"]
+size = Vector3(0.4, 0.6, 0.15)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fuse"]
+size = Vector3(0.4, 0.6, 0.15)
+
+[node name="FuseBox" type="StaticBody3D"]
+collision_layer = 9
+collision_mask = 0
+script = ExtResource("1_fuse")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+mesh = SubResource("BoxMesh_fuse")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+shape = SubResource("BoxShape3D_fuse")
+
+[node name="IndicatorLight" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
+light_color = Color(0.9, 0.5, 0.1, 1)
+light_energy = 0.0
+omni_range = 3.0
+
+[node name="AudioPlayer" type="AudioStreamPlayer3D" parent="."]
+bus = &"SFX"
+max_distance = 20.0

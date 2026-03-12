@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ObjectiveTemplate" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://resources/objectives/objective_template.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://interactables/breaker_switch/breaker_switch.tscn" id="2_scene"]
+
+[resource]
+script = ExtResource("1_script")
+objective_id = "breaker_switches"
+type = 1
+display_hint = "The circuits are dead..."
+required_count = 3
+item_scene = ExtResource("2_scene")
+difficulty_weight = 0.8
