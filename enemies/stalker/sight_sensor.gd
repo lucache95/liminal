@@ -14,8 +14,22 @@ func can_see_player(monster_pos: Vector3, monster_forward: Vector3, player: Node
 	var to_player: Vector3 = player_pos - monster_pos
 	var distance: float = to_player.length()
 
-	# Check 1: Distance within sight range
-	if distance > config.sight_range:
+	# Calculate effective sight range based on light level
+	var light_level: float = _sample_player_light_level(player)
+	var effective_range: float = config.sight_range
+
+	# Darkness reduces sight range: at light_level=0 monster sees at 40% range
+	# At light_level=0.5+ monster sees at full range
+	var light_factor: float = clampf(light_level / 0.5, 0.4, 1.0)
+	effective_range *= light_factor
+
+	# Flashlight beacon: player is more visible when flashlight is on (+50% range)
+	var flashlight_node: Node = player.find_child("Flashlight", true, false)
+	if flashlight_node and flashlight_node is Light3D and (flashlight_node as Light3D).visible:
+		effective_range *= 1.5
+
+	# Check 1: Distance within effective sight range
+	if distance > effective_range:
 		return false
 
 	# Check 2: Angle within sight cone (half-angle check)
@@ -26,7 +40,6 @@ func can_see_player(monster_pos: Vector3, monster_forward: Vector3, player: Node
 		return false
 
 	# Check 3: Light level at player position above threshold
-	var light_level: float = _sample_player_light_level(player)
 	if light_level < config.light_threshold:
 		return false
 

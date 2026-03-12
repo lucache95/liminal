@@ -44,7 +44,7 @@ const FOOTSTEP_CROUCH_INTERVAL: float = 0.7
 
 # Sound emission intensities
 const SOUND_WALK_INTENSITY: float = 0.5
-const SOUND_SPRINT_INTENSITY: float = 1.0
+const SOUND_SPRINT_INTENSITY: float = 1.2  # Bumped from 1.0 -- sprint is riskier per design
 const SOUND_CROUCH_INTENSITY: float = 0.15
 
 # Gravity
@@ -62,6 +62,10 @@ func _ready() -> void:
 	add_to_group(&"player")
 	_gravity = ProjectSettings.get_setting("physics/3d/default_gravity") * gravity_multiplier
 	current_stamina = max_stamina
+	# Proximity audio: heartbeat + drone intensify near monsters
+	var proximity_audio := ProximityAudioController.new()
+	proximity_audio.name = "ProximityAudioController"
+	add_child(proximity_audio)
 
 
 func _physics_process(delta: float) -> void:
@@ -194,3 +198,8 @@ func _handle_footsteps(delta: float) -> void:
 ## Returns the stamina as a percentage 0.0 - 1.0.
 func get_stamina_percent() -> float:
 	return current_stamina / max_stamina
+
+
+## Returns the current light exposure at the player's position (0.0 dark to ~1.0 bright).
+func get_light_exposure() -> float:
+	return SanityManager.last_sampled_light_level

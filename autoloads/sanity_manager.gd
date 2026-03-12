@@ -25,6 +25,7 @@ const ZERO_SANITY_SIGNAL_INTERVAL: float = 2.0  ## Re-emit zero-sanity signal in
 # ---------------------------------------------------------------------------
 
 var sanity: float = 1.0
+var last_sampled_light_level: float = 0.5  ## Cached light level for external systems (sight_sensor)
 var _player: CharacterBody3D = null
 var _flashlight_on: bool = false
 var _monster_nearby: bool = false
@@ -100,6 +101,7 @@ func _update_sanity() -> void:
 
 	var delta_t: float = 0.25
 	var light_level: float = _sample_light_level()
+	last_sampled_light_level = light_level
 
 	# Drain in darkness
 	if light_level < DARKNESS_THRESHOLD:
