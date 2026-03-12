@@ -28,6 +28,11 @@ func _ready() -> void:
 	danger_zone.body_exited.connect(_on_danger_zone_exited)
 
 	config = preload("res://resources/enemy_configs/lurker_config.tres")
+
+	var audio_controller: LurkerAudio = LurkerAudio.new()
+	audio_controller.name = "LurkerAudio"
+	add_child(audio_controller)
+
 	_pick_roam_target()
 
 
