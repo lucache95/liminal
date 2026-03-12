@@ -148,6 +148,29 @@ func _setup_objectives() -> void:
 	if spawn_points.size() > 0:
 		ObjectiveManager.spawn_objectives(spawn_points)
 
+	# Place environmental clues near active objective spawn locations
+	if ObjectiveManager.active_template != null and ObjectiveManager._run_rng != null:
+		var clue_mgr: EnvironmentalClueManager = EnvironmentalClueManager.new()
+		clue_mgr.name = "EnvironmentalClueManager"
+		add_child(clue_mgr)
+
+		# Collect the actual spawn positions used (first N of shuffled points)
+		# Since spawn_objectives already shuffled and used first required_count,
+		# we need the positions of the spawned items.
+		# The items were added as children of the Marker3D points.
+		var used_positions: Array[Vector3] = []
+		for i: int in range(spawn_points.size()):
+			var point: Marker3D = spawn_points[i]
+			# If this point has children beyond its original state, it was used for spawning
+			if point.get_child_count() > 0:
+				used_positions.append(point.global_position)
+
+		if not used_positions.is_empty():
+			# Create a clue-specific RNG seeded from run seed for deterministic clue placement
+			var clue_rng: RandomNumberGenerator = RandomNumberGenerator.new()
+			clue_rng.seed = GameManager.current_seed ^ 0x434C5545  # "CLUE" XOR hash
+			clue_mgr.place_clues(ObjectiveManager.active_template, used_positions, clue_rng)
+
 
 func _connect_audio_zones() -> void:
 	var town_center_zone: Area3D = audio_zones.get_node("TownCenterZone")
