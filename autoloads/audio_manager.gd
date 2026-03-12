@@ -7,7 +7,7 @@ extends Node
 
 var BUS_NAMES: PackedStringArray = ["Master", "Music", "SFX", "Ambience", "Voice"]
 
-var LAYER_NAMES: PackedStringArray = ["base_layer", "weather_layer", "location_layer", "tension_layer"]
+var LAYER_NAMES: PackedStringArray = ["base_layer", "weather_layer", "location_layer", "tension_layer", "sanity_layer"]
 
 const MIN_DB: float = -80.0
 
@@ -25,6 +25,7 @@ var base_layer: AudioStreamPlayer
 var weather_layer: AudioStreamPlayer
 var location_layer: AudioStreamPlayer
 var tension_layer: AudioStreamPlayer
+var sanity_layer: AudioStreamPlayer
 var stinger_player: AudioStreamPlayer
 
 # ---------------------------------------------------------------------------
@@ -35,6 +36,7 @@ func _ready() -> void:
 	_cache_bus_indices()
 	_create_layer_nodes()
 	EventBus.connect("tension_changed", _on_tension_changed)
+	EventBus.sanity_changed.connect(_on_sanity_changed_audio)
 
 
 func _cache_bus_indices() -> void:
@@ -53,6 +55,7 @@ func _create_layer_nodes() -> void:
 	weather_layer = _make_layer_player("WeatherLayer", "Ambience")
 	location_layer = _make_layer_player("LocationLayer", "Ambience")
 	tension_layer = _make_layer_player("TensionLayer", "SFX")
+	sanity_layer = _make_layer_player("SanityLayer", "Ambience")
 	stinger_player = _make_layer_player("StingerPlayer", "SFX")
 
 
@@ -144,6 +147,8 @@ func _get_layer_player(layer_name: String) -> AudioStreamPlayer:
 			return location_layer
 		"tension_layer":
 			return tension_layer
+		"sanity_layer":
+			return sanity_layer
 		_:
 			push_error("AudioManager: unknown layer '%s'." % layer_name)
 			return null
@@ -161,3 +166,41 @@ func _swap_stream(player: AudioStreamPlayer, stream: AudioStream) -> void:
 
 func _on_tension_changed(value: float) -> void:
 	set_tension(value)
+
+
+func _on_sanity_changed_audio(value: float) -> void:
+	set_sanity_audio(value)
+
+# ---------------------------------------------------------------------------
+# Sanity audio
+# ---------------------------------------------------------------------------
+
+## Adjusts sanity audio layer volume based on sanity level.
+## Fades in whisper/tinnitus at medium dread, ramps to full at severe dread.
+func set_sanity_audio(sanity_value: float) -> void:
+	var dread: float = 1.0 - clampf(sanity_value, 0.0, 1.0)
+
+	# Load sanity audio if not already loaded
+	if sanity_layer.stream == null:
+		var whisper_path: String = "res://assets/audio/ambience/sanity_whispers.ogg"
+		if ResourceLoader.exists(whisper_path):
+			sanity_layer.stream = load(whisper_path)
+
+	if sanity_layer.stream == null:
+		return
+
+	# Fade based on dread level
+	if dread > 0.3:
+		if not sanity_layer.playing:
+			sanity_layer.play()
+		# Volume ramps from silent at dread=0.3 to full at dread=1.0
+		var volume_factor: float = clampf((dread - 0.3) / 0.7, 0.0, 1.0)
+		var target_db: float = lerpf(MIN_DB, -6.0, volume_factor)
+		var tween: Tween = create_tween()
+		tween.tween_property(sanity_layer, "volume_db", target_db, 0.5)
+	else:
+		# Fade out
+		if sanity_layer.playing:
+			var tween: Tween = create_tween()
+			tween.tween_property(sanity_layer, "volume_db", MIN_DB, 1.0)
+			tween.tween_callback(sanity_layer.stop)
