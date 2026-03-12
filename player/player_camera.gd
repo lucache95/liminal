@@ -4,6 +4,7 @@ extends Camera3D
 
 # --- Exports ---
 @export var base_fov: float = 70.0
+@export var controller_sensitivity: float = 3.0
 
 # --- Shake ---
 var _trauma: float = 0.0
@@ -47,8 +48,23 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _process(delta: float) -> void:
+	_handle_right_stick(delta)
 	_update_fov(delta)
 	_update_shake(delta)
+
+
+func _handle_right_stick(delta: float) -> void:
+	var stick := Vector2(
+		Input.get_joy_axis(0, JOY_AXIS_RIGHT_X),
+		Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y)
+	)
+	if stick.length() < 0.15:
+		return
+	var player_body: Node3D = get_parent().get_parent() as Node3D
+	if player_body:
+		player_body.rotate_y(-stick.x * controller_sensitivity * delta)
+	rotate_x(-stick.y * controller_sensitivity * delta)
+	rotation.x = clampf(rotation.x, deg_to_rad(-89.0), deg_to_rad(89.0))
 
 
 func _update_fov(delta: float) -> void:
