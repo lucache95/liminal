@@ -21,6 +21,14 @@ func _ready() -> void:
 	_connect_audio_zones()
 	_setup_ui()
 
+	if OS.is_debug_build():
+		# Defer to next frame so navmesh is ready
+		call_deferred("_validate_navmesh")
+
+
+func _validate_navmesh() -> void:
+	NavMeshValidator.validate(self)
+
 
 func _setup_ui() -> void:
 	add_child(preload("res://ui/hud/hud.tscn").instantiate())
