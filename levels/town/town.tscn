@@ -1,4 +1,4 @@
-[gd_scene load_steps=70 format=3]
+[gd_scene load_steps=87 format=3]
 
 [ext_resource type="Script" path="res://levels/town/town.gd" id="1_twn01"]
 [ext_resource type="Material" path="res://materials/grass.tres" id="2_grs01"]
@@ -6,6 +6,23 @@
 [ext_resource type="Material" path="res://materials/asphalt.tres" id="4_asp01"]
 [ext_resource type="Material" path="res://materials/old_wood.tres" id="5_wod01"]
 [ext_resource type="Material" path="res://materials/rusty_metal.tres" id="6_mtl01"]
+[ext_resource type="PackedScene" path="res://assets/models/environment/general_store.glb" id="7_gs01"]
+[ext_resource type="PackedScene" path="res://assets/models/environment/diner.glb" id="7_din01"]
+[ext_resource type="PackedScene" path="res://assets/models/environment/hardware_store.glb" id="7_hw01"]
+[ext_resource type="PackedScene" path="res://assets/models/environment/bar_tavern.glb" id="7_bar01"]
+[ext_resource type="PackedScene" path="res://assets/models/environment/gas_station.glb" id="7_gas01"]
+[ext_resource type="PackedScene" path="res://assets/models/environment/church.glb" id="7_chr01"]
+[ext_resource type="PackedScene" path="res://assets/models/environment/warehouse.glb" id="7_wh01"]
+[ext_resource type="PackedScene" path="res://assets/models/environment/factory.glb" id="7_fac01"]
+[ext_resource type="PackedScene" path="res://assets/models/environment/abandoned_house_01.glb" id="7_ah01"]
+[ext_resource type="PackedScene" path="res://assets/models/environment/abandoned_house_02.glb" id="7_ah02"]
+[ext_resource type="PackedScene" path="res://assets/models/environment/house_colonial.glb" id="7_hc01"]
+[ext_resource type="PackedScene" path="res://assets/models/environment/motel.glb" id="7_mot01"]
+[ext_resource type="PackedScene" path="res://assets/models/environment/radio_station.glb" id="7_rad01"]
+[ext_resource type="PackedScene" path="res://assets/models/environment/school.glb" id="7_sch01"]
+[ext_resource type="PackedScene" path="res://assets/models/environment/ranger_station.glb" id="7_rgr01"]
+[ext_resource type="PackedScene" path="res://assets/models/environment/pharmacy.glb" id="7_phm01"]
+[ext_resource type="PackedScene" path="res://assets/models/environment/trailer_home.glb" id="7_trl01"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sky01"]
 sky_top_color = Color(0.01, 0.01, 0.02, 1)
@@ -258,6 +275,18 @@ size = Vector3(20, 1.2, 0.1)
 [sub_resource type="BoxShape3D" id="BoxShape3D_zone_highway"]
 size = Vector3(20, 10, 50)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_pharmacy"]
+size = Vector3(8, 4, 7)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_school"]
+size = Vector3(15, 5, 10)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_trailer"]
+size = Vector3(10, 3, 4)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ranger"]
+size = Vector3(6, 3, 5)
+
 [node name="Town" type="Node3D"]
 script = ExtResource("1_twn01")
 
@@ -368,8 +397,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 2, 15)
 collision_layer = 1
 collision_mask = 0
 
-[node name="Mesh" type="MeshInstance3D" parent="MainStreet/Shop01"]
-mesh = SubResource("BoxMesh_shop01")
+[node name="Model" parent="MainStreet/Shop01" instance=ExtResource("7_gs01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="Collision" type="CollisionShape3D" parent="MainStreet/Shop01"]
 shape = SubResource("BoxShape3D_shop01")
@@ -379,8 +408,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 1.75, 15)
 collision_layer = 1
 collision_mask = 0
 
-[node name="Mesh" type="MeshInstance3D" parent="MainStreet/Shop02"]
-mesh = SubResource("BoxMesh_shop02")
+[node name="Model" parent="MainStreet/Shop02" instance=ExtResource("7_din01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="Collision" type="CollisionShape3D" parent="MainStreet/Shop02"]
 shape = SubResource("BoxShape3D_shop02")
@@ -390,8 +419,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 2, 30)
 collision_layer = 1
 collision_mask = 0
 
-[node name="Mesh" type="MeshInstance3D" parent="MainStreet/Shop03"]
-mesh = SubResource("BoxMesh_shop03")
+[node name="Model" parent="MainStreet/Shop03" instance=ExtResource("7_hw01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="Collision" type="CollisionShape3D" parent="MainStreet/Shop03"]
 shape = SubResource("BoxShape3D_shop03")
@@ -401,11 +430,22 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 1.5, 30)
 collision_layer = 1
 collision_mask = 0
 
-[node name="Mesh" type="MeshInstance3D" parent="MainStreet/Shop04"]
-mesh = SubResource("BoxMesh_shop04")
+[node name="Model" parent="MainStreet/Shop04" instance=ExtResource("7_bar01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="Collision" type="CollisionShape3D" parent="MainStreet/Shop04"]
 shape = SubResource("BoxShape3D_shop04")
+
+[node name="Pharmacy" type="StaticBody3D" parent="MainStreet"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 2, 20)
+collision_layer = 1
+collision_mask = 0
+
+[node name="Model" parent="MainStreet/Pharmacy" instance=ExtResource("7_phm01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="Collision" type="CollisionShape3D" parent="MainStreet/Pharmacy"]
+shape = SubResource("BoxShape3D_pharmacy")
 
 [node name="StreetLight01" type="OmniLight3D" parent="MainStreet"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 10)
@@ -434,8 +474,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 collision_layer = 1
 collision_mask = 0
 
-[node name="Mesh" type="MeshInstance3D" parent="GasStation/MainBuilding"]
-mesh = SubResource("BoxMesh_gasstation")
+[node name="Model" parent="GasStation/MainBuilding" instance=ExtResource("7_gas01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="Collision" type="CollisionShape3D" parent="GasStation/MainBuilding"]
 shape = SubResource("BoxShape3D_gasstation")
@@ -502,8 +542,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 collision_layer = 1
 collision_mask = 0
 
-[node name="Mesh" type="MeshInstance3D" parent="Motel/MotelMain"]
-mesh = SubResource("BoxMesh_motel_main")
+[node name="Model" parent="Motel/MotelMain" instance=ExtResource("7_mot01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="Collision" type="CollisionShape3D" parent="Motel/MotelMain"]
 shape = SubResource("BoxShape3D_motel_main")
@@ -555,8 +595,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
 collision_layer = 1
 collision_mask = 0
 
-[node name="Mesh" type="MeshInstance3D" parent="Church/ChurchBuilding"]
-mesh = SubResource("BoxMesh_church")
+[node name="Model" parent="Church/ChurchBuilding" instance=ExtResource("7_chr01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="Collision" type="CollisionShape3D" parent="Church/ChurchBuilding"]
 shape = SubResource("BoxShape3D_church")
@@ -571,6 +611,17 @@ mesh = SubResource("BoxMesh_steeple")
 
 [node name="Collision" type="CollisionShape3D" parent="Church/Steeple"]
 shape = SubResource("BoxShape3D_steeple")
+
+[node name="School" type="StaticBody3D" parent="Church"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, 25)
+collision_layer = 1
+collision_mask = 0
+
+[node name="Model" parent="Church/School" instance=ExtResource("7_sch01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="Collision" type="CollisionShape3D" parent="Church/School"]
+shape = SubResource("BoxShape3D_school")
 
 [node name="Playground" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 0, 35)
@@ -620,8 +671,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
 collision_layer = 1
 collision_mask = 0
 
-[node name="Mesh" type="MeshInstance3D" parent="IndustrialArea/Warehouse01"]
-mesh = SubResource("BoxMesh_warehouse01")
+[node name="Model" parent="IndustrialArea/Warehouse01" instance=ExtResource("7_wh01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="Collision" type="CollisionShape3D" parent="IndustrialArea/Warehouse01"]
 shape = SubResource("BoxShape3D_warehouse01")
@@ -631,8 +682,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 15)
 collision_layer = 1
 collision_mask = 0
 
-[node name="Mesh" type="MeshInstance3D" parent="IndustrialArea/Warehouse02"]
-mesh = SubResource("BoxMesh_warehouse02")
+[node name="Model" parent="IndustrialArea/Warehouse02" instance=ExtResource("7_fac01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="Collision" type="CollisionShape3D" parent="IndustrialArea/Warehouse02"]
 shape = SubResource("BoxShape3D_warehouse02")
@@ -662,8 +713,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 collision_layer = 1
 collision_mask = 0
 
-[node name="Mesh" type="MeshInstance3D" parent="ResidentialArea/House01"]
-mesh = SubResource("BoxMesh_house01")
+[node name="Model" parent="ResidentialArea/House01" instance=ExtResource("7_ah01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="Collision" type="CollisionShape3D" parent="ResidentialArea/House01"]
 shape = SubResource("BoxShape3D_house01")
@@ -673,8 +724,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 2, 0)
 collision_layer = 1
 collision_mask = 0
 
-[node name="Mesh" type="MeshInstance3D" parent="ResidentialArea/House02"]
-mesh = SubResource("BoxMesh_house02")
+[node name="Model" parent="ResidentialArea/House02" instance=ExtResource("7_ah02")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="Collision" type="CollisionShape3D" parent="ResidentialArea/House02"]
 shape = SubResource("BoxShape3D_house02")
@@ -684,11 +735,22 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 1.75, 0)
 collision_layer = 1
 collision_mask = 0
 
-[node name="Mesh" type="MeshInstance3D" parent="ResidentialArea/House03"]
-mesh = SubResource("BoxMesh_house03")
+[node name="Model" parent="ResidentialArea/House03" instance=ExtResource("7_hc01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="Collision" type="CollisionShape3D" parent="ResidentialArea/House03"]
 shape = SubResource("BoxShape3D_house03")
+
+[node name="TrailerHome" type="StaticBody3D" parent="ResidentialArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 0, -45)
+collision_layer = 1
+collision_mask = 0
+
+[node name="Model" parent="ResidentialArea/TrailerHome" instance=ExtResource("7_trl01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="Collision" type="CollisionShape3D" parent="ResidentialArea/TrailerHome"]
+shape = SubResource("BoxShape3D_trailer")
 
 [node name="ResidentialLight" type="OmniLight3D" parent="ResidentialArea"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 4, -6)
@@ -718,8 +780,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 collision_layer = 1
 collision_mask = 0
 
-[node name="Mesh" type="MeshInstance3D" parent="RadioTower/TowerBase"]
-mesh = SubResource("BoxMesh_tower_base")
+[node name="Model" parent="RadioTower/TowerBase" instance=ExtResource("7_rad01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="Collision" type="CollisionShape3D" parent="RadioTower/TowerBase"]
 shape = SubResource("BoxShape3D_tower_base")
@@ -740,6 +802,19 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 17, 0)
 light_color = Color(1, 0.1, 0.1, 1)
 light_energy = 0.5
 omni_range = 20.0
+
+[node name="ForestEdge" type="Node3D" parent="."]
+
+[node name="RangerStation" type="StaticBody3D" parent="ForestEdge"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 55)
+collision_layer = 1
+collision_mask = 0
+
+[node name="Model" parent="ForestEdge/RangerStation" instance=ExtResource("7_rgr01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="Collision" type="CollisionShape3D" parent="ForestEdge/RangerStation"]
+shape = SubResource("BoxShape3D_ranger")
 
 [node name="PlayerSpawn" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -55)
