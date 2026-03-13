@@ -154,7 +154,7 @@ _elevenlabs_quota_exhausted = False
 # ElevenLabs generation
 # ============================================================
 
-def generate_elevenlabs(filename, prompt, duration, output_dir, output_format="mp3_44100_128", loop=False):
+def generate_elevenlabs(filename, prompt, duration, output_dir, output_format="mp3_44100_128", loop=False, prompt_influence=None):
     """Generate a single audio file via ElevenLabs Sound Effects API.
 
     Args:
@@ -164,6 +164,8 @@ def generate_elevenlabs(filename, prompt, duration, output_dir, output_format="m
         output_dir: Output directory Path
         output_format: ElevenLabs output format string
         loop: Whether to generate seamless loop (v2 model only)
+        prompt_influence: Override prompt influence (0.0-1.0). If None, uses
+            0.3 for loops, 0.4 for one-shots.
 
     Returns:
         True if successful, False otherwise
@@ -182,14 +184,16 @@ def generate_elevenlabs(filename, prompt, duration, output_dir, output_format="m
         return False
 
     if DRY_RUN:
-        print(f"  [DRY RUN] Would generate: {filename} ({duration}s, {'loop' if loop else 'one-shot'})")
+        influence = prompt_influence if prompt_influence is not None else (0.3 if loop else 0.4)
+        print(f"  [DRY RUN] Would generate: {filename} ({duration}s, {'loop' if loop else 'one-shot'}, influence={influence})")
         return True
 
     print(f"  Generating: {filename} ({duration}s{', loop' if loop else ''}) ...")
+    influence = prompt_influence if prompt_influence is not None else (0.3 if loop else 0.4)
     body = {
         "text": prompt,
         "duration_seconds": duration,
-        "prompt_influence": 0.3 if loop else 0.4,
+        "prompt_influence": influence,
         "output_format": output_format,
     }
     if loop:
@@ -332,30 +336,34 @@ def generate_monsters():
 # ============================================================
 
 FOOTSTEP_ITEMS = [
+    # (filename, prompt, duration_seconds, prompt_influence)
+    # Duration increased from 0.5 to 1.0 -- ElevenLabs produces tiny files at 0.5s
+    # prompt_influence raised to 0.5 for more control over short impacts
+    # "close microphone" added to each prompt for clearer recordings
     # Concrete
-    ("concrete_step_1.mp3", "Single footstep on concrete sidewalk, hard sole shoe, dry impact, urban, short", 0.5),
-    ("concrete_step_2.mp3", "Single footstep on concrete floor, shoe impact, indoor, firm step, short", 0.5),
-    ("concrete_step_3.mp3", "Single footstep on concrete pavement, hard surface impact, outdoor, brief", 0.5),
+    ("concrete_step_1.mp3", "Single footstep on concrete sidewalk, hard sole shoe, dry impact, urban, close microphone, short", 1.0, 0.5),
+    ("concrete_step_2.mp3", "Single footstep on concrete floor, shoe impact, indoor, firm step, close microphone, short", 1.0, 0.5),
+    ("concrete_step_3.mp3", "Single footstep on concrete pavement, hard surface impact, outdoor, close microphone, brief", 1.0, 0.5),
     # Grass
-    ("grass_step_1.mp3", "Single footstep on grass, soft rustling, outdoor, quiet gentle step, short", 0.5),
-    ("grass_step_2.mp3", "Single footstep on grass and leaves, light crunching, outdoor, brief", 0.5),
-    ("grass_step_3.mp3", "Single footstep on wet grass, soft squelch, outdoor, muffled step, short", 0.5),
+    ("grass_step_1.mp3", "Single footstep on grass, soft rustling, outdoor, quiet gentle step, close microphone, short", 1.0, 0.5),
+    ("grass_step_2.mp3", "Single footstep on grass and leaves, light crunching, outdoor, close microphone, brief", 1.0, 0.5),
+    ("grass_step_3.mp3", "Single footstep on wet grass, soft squelch, outdoor, muffled step, close microphone, short", 1.0, 0.5),
     # Metal
-    ("metal_step_1.mp3", "Single footstep on metal grating, metallic ring, industrial, reverberant, short", 0.5),
-    ("metal_step_2.mp3", "Single footstep on metal floor plate, hollow clang, industrial, brief", 0.5),
-    ("metal_step_3.mp3", "Single footstep on metal catwalk, sharp metallic tap, resonant, short", 0.5),
+    ("metal_step_1.mp3", "Single footstep on metal grating, metallic ring, industrial, reverberant, close microphone, short", 1.0, 0.5),
+    ("metal_step_2.mp3", "Single footstep on metal floor plate, hollow clang, industrial, close microphone, brief", 1.0, 0.5),
+    ("metal_step_3.mp3", "Single footstep on metal catwalk, sharp metallic tap, resonant, close microphone, short", 1.0, 0.5),
     # Wood
-    ("wood_step_1.mp3", "Single footstep on old wooden floorboard, slight creak, indoor, hollow, short", 0.5),
-    ("wood_step_2.mp3", "Single footstep on wooden plank, board flexing, old floor, brief creak", 0.5),
-    ("wood_step_3.mp3", "Single footstep on wooden stairs, wooden thud, slight creak, indoor, short", 0.5),
+    ("wood_step_1.mp3", "Single footstep on old wooden floorboard, slight creak, indoor, hollow, close microphone, short", 1.0, 0.5),
+    ("wood_step_2.mp3", "Single footstep on wooden plank, board flexing, old floor, close microphone, brief creak", 1.0, 0.5),
+    ("wood_step_3.mp3", "Single footstep on wooden stairs, wooden thud, slight creak, indoor, close microphone, short", 1.0, 0.5),
     # Gravel
-    ("gravel_step_1.mp3", "Single footstep on gravel, crunching stones, outdoor, loose ground, short", 0.5),
-    ("gravel_step_2.mp3", "Single footstep on gravel path, pebbles shifting, outdoor, brief crunch", 0.5),
-    ("gravel_step_3.mp3", "Single footstep on gravel and loose stones, grinding crunch, outdoor, short", 0.5),
+    ("gravel_step_1.mp3", "Single footstep on gravel, crunching stones, outdoor, loose ground, close microphone, short", 1.0, 0.5),
+    ("gravel_step_2.mp3", "Single footstep on gravel path, pebbles shifting, outdoor, close microphone, brief crunch", 1.0, 0.5),
+    ("gravel_step_3.mp3", "Single footstep on gravel and loose stones, grinding crunch, outdoor, close microphone, short", 1.0, 0.5),
     # Water
-    ("water_step_1.mp3", "Single footstep splashing in shallow water puddle, wet sloshing impact, short", 0.5),
-    ("water_step_2.mp3", "Single footstep in shallow water, light splash, wet floor, brief", 0.5),
-    ("water_step_3.mp3", "Single footstep wading through shallow water, splashing step, indoor flood, short", 0.5),
+    ("water_step_1.mp3", "Single footstep splashing in shallow water puddle, wet sloshing impact, close microphone, short", 1.0, 0.5),
+    ("water_step_2.mp3", "Single footstep in shallow water, light splash, wet floor, close microphone, brief", 1.0, 0.5),
+    ("water_step_3.mp3", "Single footstep wading through shallow water, splashing step, indoor flood, close microphone, short", 1.0, 0.5),
 ]
 
 
@@ -365,10 +373,13 @@ def generate_footsteps():
     output_dir = BASE_DIR / "footsteps"
     ok = 0
     fail = 0
-    for filename, prompt, duration in FOOTSTEP_ITEMS:
+    for item in FOOTSTEP_ITEMS:
+        filename, prompt, duration = item[0], item[1], item[2]
+        pi = item[3] if len(item) > 3 else None
         success = generate_elevenlabs(
             filename, prompt, duration, output_dir,
             output_format="mp3_44100_128",
+            prompt_influence=pi,
         )
         if success:
             ok += 1
@@ -388,14 +399,14 @@ SFX_ITEMS = [
     ("door_open.mp3", "Heavy wooden door opening slowly, creaking rusty hinges, old abandoned building, horror", 2),
     ("door_close.mp3", "Heavy wooden door slamming shut, loud impact, reverberant, horror building", 1.5),
     ("door_locked.mp3", "Rattling a locked door handle, metal jiggling, door won't open, frustrated attempt", 1),
-    ("switch_flip.mp3", "Mechanical switch being flipped, electrical breaker click with slight buzz, industrial", 0.5),
+    ("switch_flip.mp3", "Mechanical switch being flipped, electrical breaker click with slight buzz, industrial", 1.0),
     ("generator_start.mp3", "Old diesel generator starting up, pull cord, engine coughing then catching, rumbling to life", 4),
     ("key_pickup.mp3", "Metal keys jingling when picked up, key ring clinking on surface, brief", 1),
-    ("item_pickup.mp3", "Picking up a small object from a surface, brief scrape, subtle confirmation sound", 0.5),
+    ("item_pickup.mp3", "Picking up a small object from a surface, brief scrape, subtle confirmation sound", 1.0),
     ("radio_tune.mp3", "Old radio tuning through frequencies, crackling static, dialing, analog knob turning", 3),
     ("heartbeat_slow.mp3", "Slow heartbeat pounding, calm but tense, muffled rhythmic pulse, anxiety building", 5),
     ("heartbeat_fast.mp3", "Fast heartbeat pounding rapidly, panic, adrenaline rush, loud muffled pulse, intense", 5),
-    ("flashlight_click.mp3", "Flashlight clicking on and off, plastic button click, mechanical switch, brief", 0.5),
+    ("flashlight_click.mp3", "Flashlight clicking on and off, plastic button click, mechanical switch, brief", 1.0),
 ]
 
 
@@ -424,12 +435,14 @@ def generate_sfx():
 # Section 5: Music Tracks (Suno)
 # ============================================================
 
+# NOTE: Using Suno V5 model for better quality. If V5 is rejected by the API,
+# manually change "model": "V5" to "model": "V4_5" as a fallback.
 SUNO_TRACKS = [
     {
         "name": "ambient_drone",
         "customMode": True,
         "instrumental": True,
-        "model": "V4_5",
+        "model": "V5",
         "style": "dark ambient, horror, subsonic drones, dissonant strings, atmospheric tension, cinematic, slow, unsettling, liminal spaces",
         "title": "Forgotten Streets",
         "negativeTags": "upbeat, happy, major key, pop, electronic dance, fast, vocals",
@@ -438,7 +451,7 @@ SUNO_TRACKS = [
         "name": "chase_tension",
         "customMode": True,
         "instrumental": True,
-        "model": "V4_5",
+        "model": "V5",
         "style": "intense horror chase music, pounding percussion, staccato strings, urgent tempo, dark orchestral, adrenaline, suspenseful, relentless",
         "title": "The Pursuit",
         "negativeTags": "calm, peaceful, ambient, slow, happy, electronic dance, pop, vocals",
@@ -447,7 +460,7 @@ SUNO_TRACKS = [
         "name": "menu_theme",
         "customMode": True,
         "instrumental": True,
-        "model": "V4_5",
+        "model": "V5",
         "style": "eerie piano melody, music box horror, unsettling calm, minor key, sparse arrangement, haunting, cinematic, liminal",
         "title": "Liminal",
         "negativeTags": "upbeat, major key, fast, loud, electronic, pop, dance, vocals",
