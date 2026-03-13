@@ -11,43 +11,43 @@ enum Surface {
 	WATER,
 }
 
-# Preloaded sound pools per surface type (placeholder paths).
-# Each surface has an array of AudioStream references. Files may not exist yet.
+# Preloaded sound pools per surface type (AI-generated audio paths, ElevenLabs).
+# Each surface has an array of AudioStream references.
 var _footstep_sounds: Dictionary = {}
 
 # Concrete
 var _concrete_paths: Array[String] = [
-	"res://assets/audio/sfx/footstep_concrete_01.wav",
-	"res://assets/audio/sfx/footstep_concrete_02.wav",
-	"res://assets/audio/sfx/footstep_concrete_03.wav",
+	"res://assets/audio/footsteps/concrete_step_1.mp3",
+	"res://assets/audio/footsteps/concrete_step_2.mp3",
+	"res://assets/audio/footsteps/concrete_step_3.mp3",
 ]
 
 # Wood
 var _wood_paths: Array[String] = [
-	"res://assets/audio/sfx/footstep_wood_01.wav",
-	"res://assets/audio/sfx/footstep_wood_02.wav",
-	"res://assets/audio/sfx/footstep_wood_03.wav",
+	"res://assets/audio/footsteps/wood_step_1.mp3",
+	"res://assets/audio/footsteps/wood_step_2.mp3",
+	"res://assets/audio/footsteps/wood_step_3.mp3",
 ]
 
 # Metal
 var _metal_paths: Array[String] = [
-	"res://assets/audio/sfx/footstep_metal_01.wav",
-	"res://assets/audio/sfx/footstep_metal_02.wav",
-	"res://assets/audio/sfx/footstep_metal_03.wav",
+	"res://assets/audio/footsteps/metal_step_1.mp3",
+	"res://assets/audio/footsteps/metal_step_2.mp3",
+	"res://assets/audio/footsteps/metal_step_3.mp3",
 ]
 
-# Dirt
+# Dirt (mapped to gravel audio — closest match)
 var _dirt_paths: Array[String] = [
-	"res://assets/audio/sfx/footstep_dirt_01.wav",
-	"res://assets/audio/sfx/footstep_dirt_02.wav",
-	"res://assets/audio/sfx/footstep_dirt_03.wav",
+	"res://assets/audio/footsteps/gravel_step_1.mp3",
+	"res://assets/audio/footsteps/gravel_step_2.mp3",
+	"res://assets/audio/footsteps/gravel_step_3.mp3",
 ]
 
 # Grass
 var _grass_paths: Array[String] = [
-	"res://assets/audio/sfx/footstep_grass_01.wav",
-	"res://assets/audio/sfx/footstep_grass_02.wav",
-	"res://assets/audio/sfx/footstep_grass_03.wav",
+	"res://assets/audio/footsteps/grass_step_1.mp3",
+	"res://assets/audio/footsteps/grass_step_2.mp3",
+	"res://assets/audio/footsteps/grass_step_3.mp3",
 ]
 
 # Water — actual files are mp3 in footsteps/ directory
