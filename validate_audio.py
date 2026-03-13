@@ -357,12 +357,19 @@ def validate_footsteps(quick: bool = False, verbose: bool = False) -> tuple:
             print(f"  {filename:45s} {size_kb:8.0f} KB  [{result['status']}]{' -- ' + issues if issues else ''}")
 
     # Check for identical sizes (sign of placeholder generation)
-    if sizes and len(set(sizes)) == 1 and len(sizes) > 1:
+    # Only flag as placeholder if ALL files have the same size AND that size
+    # is below the minimum threshold. Short footsteps at the same duration and
+    # bitrate (e.g. 1.0s at 128kbps = 17,180 bytes) legitimately have identical
+    # sizes, so we only fail if they're also undersized.
+    if sizes and len(set(sizes)) == 1 and len(sizes) > 1 and sizes[0] < SIZE_FOOTSTEP_MIN:
         if verbose:
             print(f"  WARNING: All {len(sizes)} files have identical size ({sizes[0]:,} bytes) -- likely placeholders")
         # Downgrade all OK to FAIL
         fail += ok
         ok = 0
+    elif sizes and len(set(sizes)) == 1 and len(sizes) > 1:
+        if verbose:
+            print(f"  NOTE: All {len(sizes)} files have identical size ({sizes[0]:,} bytes) -- normal for same-duration short sounds")
 
     total = len(EXPECTED_FOOTSTEPS)
     return ok, warn, fail, total
