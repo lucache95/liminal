@@ -132,7 +132,7 @@ func _setup_ambient_audio() -> void:
 		AudioManager.crossfade_layer("base_layer", drone, 3.0)
 
 	# Weather layer: wind loop
-	var wind_path: String = "res://assets/audio/ambience/wind_loop.wav"
+	var wind_path: String = "res://assets/audio/ambience/wind_howl.mp3"
 	if ResourceLoader.exists(wind_path):
 		var wind: AudioStream = load(wind_path)
 		AudioManager.crossfade_layer("weather_layer", wind, 4.0)

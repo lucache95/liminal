@@ -52,7 +52,7 @@ func _apply_clear(env: Environment) -> void:
 	env.fog_density = 0.002
 
 	# Audio: ambient crickets if available
-	var audio_path: String = "res://assets/audio/ambience/crickets_night.ogg"
+	var audio_path: String = "res://assets/audio/ambience/insects_night.mp3"
 	if ResourceLoader.exists(audio_path):
 		var stream: AudioStream = load(audio_path)
 		AudioManager.crossfade_layer("weather_layer", stream, 2.0)
@@ -67,7 +67,7 @@ func _apply_foggy(env: Environment) -> void:
 	_create_fog_ground_plane()
 
 	# Audio: heavy wind if available
-	var audio_path: String = "res://assets/audio/ambience/wind_heavy.ogg"
+	var audio_path: String = "res://assets/audio/ambience/wind_howl.mp3"
 	if ResourceLoader.exists(audio_path):
 		var stream: AudioStream = load(audio_path)
 		AudioManager.crossfade_layer("weather_layer", stream, 2.0)
@@ -84,7 +84,7 @@ func _apply_rainy(env: Environment) -> void:
 	add_child(_rain_particles)
 
 	# Audio: heavy rain if available
-	var audio_path: String = "res://assets/audio/ambience/rain_heavy.ogg"
+	var audio_path: String = "res://assets/audio/ambience/rain_heavy.mp3"
 	if ResourceLoader.exists(audio_path):
 		var stream: AudioStream = load(audio_path)
 		AudioManager.crossfade_layer("weather_layer", stream, 2.0)
