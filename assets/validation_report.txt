@@ -1,0 +1,208 @@
+============================================================
+LIMINAL ASSET VALIDATION
+============================================================
+
+--- Buildings ---
+Directory: /Users/lucassenechal/Projects/caleb-game/godot-project/assets/models/environment
+    Size: 1182.9KB | Version: 2
+  [PASS   ] abandoned_house_01 (1182.9KB)
+    Size: 1271.4KB | Version: 2
+  [PASS   ] abandoned_house_02 (1271.4KB)
+    Size: 1144.6KB | Version: 2
+  [PASS   ] church (1144.6KB)
+    Size: 1010.9KB | Version: 2
+  [PASS   ] gas_station (1010.9KB)
+    Size: 1086.9KB | Version: 2
+  [PASS   ] warehouse (1086.9KB)
+    Size: 1187.2KB | Version: 2
+  [PASS   ] general_store (1187.2KB)
+    Size: 51.4KB | Version: 2
+  [WARN   ] hardware_store (51.4KB) -- File smaller than expected for buildings: 51KB (min 100KB)
+    Size: 141.6KB | Version: 2
+  [PASS   ] diner (141.6KB)
+    Size: 74.8KB | Version: 2
+  [WARN   ] bar_tavern (74.8KB) -- File smaller than expected for buildings: 75KB (min 100KB)
+    Size: 165.3KB | Version: 2
+  [PASS   ] house_ranch (165.3KB)
+    Size: 446.9KB | Version: 2
+  [PASS   ] house_colonial (446.9KB)
+    Size: 74.4KB | Version: 2
+  [WARN   ] motel (74.4KB) -- File smaller than expected for buildings: 74KB (min 100KB)
+    Size: 314.3KB | Version: 2
+  [PASS   ] school (314.3KB)
+    Size: 416.7KB | Version: 2
+  [PASS   ] factory (416.7KB)
+    Size: 95.5KB | Version: 2
+  [WARN   ] radio_station (95.5KB) -- File smaller than expected for buildings: 96KB (min 100KB)
+    Size: 394.0KB | Version: 2
+  [PASS   ] ranger_station (394.0KB)
+    Size: 209.2KB | Version: 2
+  [PASS   ] pharmacy (209.2KB)
+    Size: 250.6KB | Version: 2
+  [PASS   ] trailer_home (250.6KB)
+
+  Found: 18/18 expected | Min required: 15
+
+--- Props ---
+Directory: /Users/lucassenechal/Projects/caleb-game/godot-project/assets/models/props
+    Size: 980.2KB | Version: 2
+  [PASS   ] street_lamp (980.2KB)
+    Size: 896.8KB | Version: 2
+  [PASS   ] park_bench (896.8KB)
+    Size: 1233.9KB | Version: 2
+  [PASS   ] rusty_gate (1233.9KB)
+    Size: 1171.8KB | Version: 2
+  [PASS   ] old_car (1171.8KB)
+    Size: 880.5KB | Version: 2
+  [PASS   ] wooden_barrel (880.5KB)
+    Size: 961.9KB | Version: 2
+  [PASS   ] dumpster (961.9KB)
+    Size: 981.4KB | Version: 2
+  [PASS   ] wooden_crate (981.4KB)
+    Size: 997.8KB | Version: 2
+  [PASS   ] generator (997.8KB)
+    Size: 99.9KB | Version: 2
+  [PASS   ] mailbox (99.9KB)
+    Size: 131.4KB | Version: 2
+  [PASS   ] fire_hydrant (131.4KB)
+    Size: 106.3KB | Version: 2
+  [PASS   ] phone_booth (106.3KB)
+    Size: 395.4KB | Version: 2
+  [PASS   ] trash_can (395.4KB)
+    Size: 216.6KB | Version: 2
+  [PASS   ] traffic_cone (216.6KB)
+    Size: 103.6KB | Version: 2
+  [PASS   ] road_barrier (103.6KB)
+    Size: 406.4KB | Version: 2
+  [PASS   ] chain_link_fence (406.4KB)
+    Size: 192.2KB | Version: 2
+  [PASS   ] pickup_truck (192.2KB)
+    Size: 193.1KB | Version: 2
+  [PASS   ] police_car (193.1KB)
+    Size: 251.6KB | Version: 2
+  [PASS   ] tire_stack (251.6KB)
+    Size: 85.9KB | Version: 2
+  [PASS   ] overturned_table (85.9KB)
+    Size: 79.2KB | Version: 2
+  [PASS   ] broken_chair (79.2KB)
+    Size: 153.0KB | Version: 2
+  [PASS   ] old_tv (153.0KB)
+    Size: 85.8KB | Version: 2
+  [PASS   ] filing_cabinet (85.8KB)
+    Size: 118.7KB | Version: 2
+  [PASS   ] torn_couch (118.7KB)
+    Size: 88.6KB | Version: 2
+  [PASS   ] rusted_refrigerator (88.6KB)
+    Size: 302.4KB | Version: 2
+  [PASS   ] fallen_bookshelf (302.4KB)
+    Size: 436.3KB | Version: 2
+  [PASS   ] dead_tree (436.3KB)
+    Size: 388.5KB | Version: 2
+  [PASS   ] overgrown_bushes (388.5KB)
+
+  Found: 27/27 expected | Min required: 20
+
+--- Characters ---
+Directory: /Users/lucassenechal/Projects/caleb-game/godot-project/assets/models/characters
+    Size: 340.6KB | Version: 2
+  [PASS   ] echo_walker_monster (340.6KB)
+    Size: 385.6KB | Version: 2
+  [PASS   ] lantern_widow_monster (385.6KB)
+    Size: 172.1KB | Version: 2
+  [PASS   ] window_man_monster (172.1KB)
+
+  Found: 3/3 expected | Min required: 3
+
+--- Textures ---
+
+  floors/
+    Size: 55661 bytes | Dimensions: 256x256
+    [PASS   ] asphalt_albedo.png (55661B)
+    Size: 159257 bytes | Dimensions: 256x256
+    [PASS   ] asphalt_normal.png (159257B)
+    Size: 83502 bytes | Dimensions: 256x256
+    [PASS   ] asphalt_roughness.png (83502B)
+    Size: 55720 bytes | Dimensions: 256x256
+    [PASS   ] grass_albedo.png (55720B)
+    Size: 159257 bytes | Dimensions: 256x256
+    [PASS   ] grass_normal.png (159257B)
+    Size: 83502 bytes | Dimensions: 256x256
+    [PASS   ] grass_roughness.png (83502B)
+    Size: 55791 bytes | Dimensions: 256x256
+    [PASS   ] wood_albedo.png (55791B)
+    Size: 159007 bytes | Dimensions: 256x256
+    [PASS   ] wood_normal.png (159007B)
+    Size: 89973 bytes | Dimensions: 256x256
+    [PASS   ] wood_roughness.png (89973B)
+    Size: 117389 bytes | Dimensions: 256x256
+    [PASS   ] dirt_albedo.png (117389B)
+    Size: 159007 bytes | Dimensions: 256x256
+    [PASS   ] dirt_normal.png (159007B)
+    Size: 89973 bytes | Dimensions: 256x256
+    [PASS   ] dirt_roughness.png (89973B)
+    Size: 127849 bytes | Dimensions: 256x256
+    [PASS   ] tile_albedo.png (127849B)
+    Size: 153518 bytes | Dimensions: 256x256
+    [PASS   ] tile_normal.png (153518B)
+    Size: 96838 bytes | Dimensions: 256x256
+    [PASS   ] tile_roughness.png (96838B)
+
+  walls/
+    Size: 55797 bytes | Dimensions: 256x256
+    [PASS   ] brick_albedo.png (55797B)
+    Size: 134825 bytes | Dimensions: 256x256
+    [PASS   ] brick_normal.png (134825B)
+    Size: 85931 bytes | Dimensions: 256x256
+    [PASS   ] brick_roughness.png (85931B)
+    Size: 55832 bytes | Dimensions: 256x256
+    [PASS   ] concrete_albedo.png (55832B)
+    Size: 149379 bytes | Dimensions: 256x256
+    [PASS   ] concrete_normal.png (149379B)
+    Size: 91268 bytes | Dimensions: 256x256
+    [PASS   ] concrete_roughness.png (91268B)
+    Size: 114523 bytes | Dimensions: 256x256
+    [PASS   ] wallpaper_albedo.png (114523B)
+    Size: 143505 bytes | Dimensions: 256x256
+    [PASS   ] wallpaper_normal.png (143505B)
+    Size: 86758 bytes | Dimensions: 256x256
+    [PASS   ] wallpaper_roughness.png (86758B)
+
+  props/
+    Size: 55774 bytes | Dimensions: 256x256
+    [PASS   ] metal_albedo.png (55774B)
+    Size: 140875 bytes | Dimensions: 256x256
+    [PASS   ] metal_normal.png (140875B)
+    Size: 95686 bytes | Dimensions: 256x256
+    [PASS   ] metal_roughness.png (95686B)
+    Size: 55790 bytes | Dimensions: 256x256
+    [PASS   ] rust_albedo.png (55790B)
+    Size: 157507 bytes | Dimensions: 256x256
+    [PASS   ] rust_normal.png (157507B)
+    Size: 65959 bytes | Dimensions: 256x256
+    [PASS   ] rust_roughness.png (65959B)
+    Size: 55557 bytes | Dimensions: 256x256
+    [PASS   ] dark_albedo.png (55557B)
+    Size: 145745 bytes | Dimensions: 256x256
+    [PASS   ] dark_normal.png (145745B)
+    Size: 80153 bytes | Dimensions: 256x256
+    [PASS   ] dark_roughness.png (80153B)
+    Size: 86574 bytes | Dimensions: 256x256
+    [PASS   ] roof_shingles_albedo.png (86574B)
+    Size: 152664 bytes | Dimensions: 256x256
+    [PASS   ] roof_shingles_normal.png (152664B)
+    Size: 58367 bytes | Dimensions: 256x256
+    [PASS   ] roof_shingles_roughness.png (58367B)
+
+  Total texture files: 36 | Passed: 36 | Failed: 0
+
+============================================================
+SUMMARY
+============================================================
+  Total assets checked: 84
+  Passed: 84
+  Failed: 0
+  Buildings: 18 files (OK, min 15)
+  Props: 27 files (OK, min 20)
+  Characters: 3 files (OK, min 3)
+
+  RESULT: PASS (all checks passed)
